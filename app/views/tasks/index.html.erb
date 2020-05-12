@@ -31,6 +31,8 @@
             <td><%= task.body %></td>
             <td><%= task.start_date %></td>
             <td><%= task.end_date %></td>
+            <td><%= link_to 'Show', task %></td>
+            <td><%= link_to 'Mark', task, method: :patch, data: { confirm: 'Mark as done?' } %></td>
             <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
           </tr>
         <% end %>
