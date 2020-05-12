@@ -11,6 +11,11 @@
 </p>
 
 <p>
+  <strong>Priority:</strong>
+  <%= ["High","Medium","Low"][@task.priority] %>
+</p>
+
+<p>
   <strong>Body:</strong>
   <%= @task.body %>
 </p>

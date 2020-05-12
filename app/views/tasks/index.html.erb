@@ -1,35 +1,45 @@
 <p id="notice"><%= notice %></p>
 
-<h1>Tasks</h1>
+<div class="content">
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Labels</th>
-      <th>Body</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+  <div class="header">
+    <h1>TodoList
+  </div>
 
-  <tbody>
-    <% @tasks.each do |task| %>
-      <tr>
-        <td><%= task.title %></td>
-        <td><%= task.labels %></td>
-        <td><%= task.body %></td>
-        <td><%= task.start_date %></td>
-        <td><%= task.end_date %></td>
-        <td><%= link_to 'Show', task %></td>
-        <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+  <div class="body">
+    <h2>Tasks</h2>
 
-<br>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Labels</th>
+          <th>Priority</th>
+          <th>Body</th>
+          <th>Start date</th>
+          <th>End date</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-<%= link_to 'New Task', new_task_path %>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr>
+            <td><%= task.title %></td>
+            <td><%= task.labels %></td>
+            <td><%= ["High","Medium","Low"][task.priority] %></td>
+            <td><%= task.body %></td>
+            <td><%= task.start_date %></td>
+            <td><%= task.end_date %></td>
+            <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <br>
+
+    <%= link_to 'New Task', new_task_path %>
+  </body>
+
+</div>

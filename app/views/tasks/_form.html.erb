@@ -22,8 +22,17 @@
   </div>
 
   <div class="field">
+    <%= form.label :priority %>
+    <select name="task[priority]" id="task_priority">
+      <option value="0">High</option>
+      <option value="1">Medium</option>
+      <option value="2">Low</option>
+    </select>
+  </div>
+
+  <div class="field">
     <%= form.label :body %>
-    <%= form.text_field :body %>
+    <%= form.text_area :body %>
   </div>
 
   <div class="field">
