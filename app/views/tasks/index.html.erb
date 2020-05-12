@@ -50,20 +50,19 @@
   </div>
   <% if current_page? '/tasks/' %>
     <script>
-    window.onload = (() => {
       timers = document.getElementsByClassName('timer');
+      // status = document.getElementsByClassName('status');
       end_dates = [];
 
-      let status = document.getElementsByClassName('status');
       for (let i=0; i<timers.length; i++) {
         let count_down_date = new Date(timers[i].textContent).getTime();
         let currTime = new Date().getTime();
         end_dates[i] = count_down_date;
         timers[i].textContent = format_time(count_down_date-currTime);
-        if (status[i].textContent[0] == 'c' || status[i].textContent[0] == 'C') {
-          timers[i].textContent = "FINISHED";
-          continue;
-        }
+        // if (status[i].textContent[0] == 'c' || status[i].textContent[0] == 'C') {
+        //   timers[i].textContent = "FINISHED";
+        //   continue;
+        // }
         let timer = setInterval(() => {
           let now = new Date().getTime();
           let distance = end_dates[i] - now;
@@ -83,7 +82,6 @@
 
         return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
       }
-    })();
     </script>
   <% end %>
 </div>
