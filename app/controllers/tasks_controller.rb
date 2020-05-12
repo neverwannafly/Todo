@@ -4,7 +4,7 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    @tasks = Task.order(:completed, :priority, :end_date)
   end
 
   # GET /tasks/1
@@ -61,6 +61,21 @@ class TasksController < ApplicationController
     end
   end
 
+  # MARK /tasks/1
+  def mark
+    status = Task.find(params[:id]).completed
+    notice = status ? 'Undid the selected task!' : 'Task was successfully completed.'
+    respond_to do |format|
+      if Task.update(params[:id], :completed => !status)
+        format.html { redirect_to tasks_url, notice: notice }
+        format.json { head :no_content }
+      else
+        format.html { render :mark }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
@@ -69,6 +84,6 @@ class TasksController < ApplicationController
 
     # Only allow a list of trusted parameters through.
     def task_params
-      params.require(:task).permit(:title, :labels, :body, :start_date, :end_date)
+      params.require(:task).permit(:title, :labels, :priority, :body, :start_date, :end_date)
     end
 end

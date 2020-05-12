@@ -1,35 +1,87 @@
-<p id="notice"><%= notice %></p>
+<div class="content">
+  <div class="header">
+    <h1>TodoList
+  </div>
 
-<h1>Tasks</h1>
+  <div class="body">
+    <p id="notice"><%= notice %></p>
+    <h2>Tasks</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Labels</th>
+          <th>Priority</th>
+          <th>Body</th>
+          <th>Time Left</th>
+          <th>Status</th>
+          <th colspan="3"></th>
+        </tr>
+      </thead>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Labels</th>
-      <th>Body</th>
-      <th>Start date</th>
-      <th>End date</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+      <tbody>
+        <% @tasks.each do |task| %>
+          <tr>
+            <td><%= task.title %></td>
+            <td><%= task.labels %></td>
+            <td><%= ["High","Medium","Low"][task.priority] %></td>
+            <td><%= task.body %></td>
+            <td class='timer'><%= task.end_date.localtime %></td>
+            <% if task.completed == true %>
+              <td class='status'><%= "Completed!" %></td>
+            <% else %>
+              <td class='status'><%= "Pending" %></td>
+            <% end %>
+            <td><%= link_to 'Show', task %></td>
+            <% if task.completed == false %>
+              <td><%= link_to 'Done!', mark_path(task.id) %></td>
+            <% else %>
+              <td><%= link_to 'Undo', mark_path(task.id) %></td>
+            <% end %>
+            <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
 
-  <tbody>
-    <% @tasks.each do |task| %>
-      <tr>
-        <td><%= task.title %></td>
-        <td><%= task.labels %></td>
-        <td><%= task.body %></td>
-        <td><%= task.start_date %></td>
-        <td><%= task.end_date %></td>
-        <td><%= link_to 'Show', task %></td>
-        <td><%= link_to 'Edit', edit_task_path(task) %></td>
-        <td><%= link_to 'Destroy', task, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+    <br>
 
-<br>
+    <%= link_to 'New Task', new_task_path %>
+  </div>
+  <% if current_page? '/tasks/' %>
+    <script>
+      timers = document.getElementsByClassName('timer');
+      // status = document.getElementsByClassName('status');
+      end_dates = [];
 
-<%= link_to 'New Task', new_task_path %>
+      for (let i=0; i<timers.length; i++) {
+        let count_down_date = new Date(timers[i].textContent).getTime();
+        let currTime = new Date().getTime();
+        end_dates[i] = count_down_date;
+        timers[i].textContent = format_time(count_down_date-currTime);
+        // if (status[i].textContent[0] == 'c' || status[i].textContent[0] == 'C') {
+        //   timers[i].textContent = "FINISHED";
+        //   continue;
+        // }
+        let timer = setInterval(() => {
+          let now = new Date().getTime();
+          let distance = end_dates[i] - now;
+          timers[i].textContent = format_time(distance);
+          if (distance < 0) {
+            clearInterval(timer);
+            timers[i].textContent = "EXPIRED";
+          }
+        }, 1000);
+      };
+
+      function format_time(distance) {
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+        return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      }
+    </script>
+  <% end %>
+</div>

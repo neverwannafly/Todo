@@ -11,18 +11,32 @@
 </p>
 
 <p>
+  <strong>Priority:</strong>
+  <%= ["High","Medium","Low"][@task.priority] %>
+</p>
+
+<p>
   <strong>Body:</strong>
   <%= @task.body %>
 </p>
 
 <p>
   <strong>Start date:</strong>
-  <%= @task.start_date %>
+  <%= @task.start_date.localtime.to_formatted_s :long_ordinal %>
 </p>
 
 <p>
   <strong>End date:</strong>
-  <%= @task.end_date %>
+  <%= @task.end_date.localtime.to_formatted_s :long_ordinal %>
+</p>
+
+<p>
+  <strong>Status:</strong>
+  <% if @task.completed %>
+    <%= "Completed" %>
+  <% else %>
+    <%= "Pending" %>
+  <% end %>
 </p>
 
 <%= link_to 'Edit', edit_task_path(@task) %> |
