@@ -61,6 +61,20 @@ class TasksController < ApplicationController
     end
   end
 
+  # MARK /tasks/1
+  def mark
+    status = Task.find(params[:id]).completed
+    respond_to do |format|
+      if Task.update(params[:id], :completed => !status)
+        format.html { redirect_to tasks_url, notice: 'Task was successfully completed.' }
+        format.json { head :no_content }
+      else
+        format.html { render :mark }
+        format.json { render json: @task.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_task
