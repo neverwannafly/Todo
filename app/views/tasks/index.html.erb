@@ -50,25 +50,31 @@
   </div>
   <script>
     timers = document.getElementsByClassName('timer');
+    let end_dates = [];
     for (let i=0; i<timers.length; i++) {
-      var countDownDate = new Date(timers[i].textContent).getTime();
-      var x = setInterval(function() {
-        var now = new Date().getTime();
-        var distance = countDownDate - now;
-        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-
-        timers[i].textContent = days + "d " + hours + "h "
-        + minutes + "m " + seconds + "s ";
-
+      let count_down_date = new Date(timers[i].textContent).getTime();
+      end_dates[i] = count_down_date;
+      let currTime = new Date().getTime();
+      timers[i].textContent = format_time(count_down_date-currTime);
+      let timer = setInterval(() => {
+        let now = new Date().getTime();
+        let distance = end_dates[i] - now;
+        timers[i].textContent = format_time(distance);
         // If the count down is finished, write some text
         if (distance < 0) {
-          clearInterval(x);
-          this.innerHTML = "EXPIRED";
+          clearInterval(timer);
+          timers[i].textContent = "EXPIRED";
         }
       }, 1000);
+    };
+
+    function format_time(distance) {
+      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+      return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
     }
   </script>
 </div>
