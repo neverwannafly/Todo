@@ -64,9 +64,10 @@ class TasksController < ApplicationController
   # MARK /tasks/1
   def mark
     status = Task.find(params[:id]).completed
+    notice = status ? 'Undid the selected task!' : 'Task was successfully completed.'
     respond_to do |format|
       if Task.update(params[:id], :completed => !status)
-        format.html { redirect_to tasks_url, notice: 'Task was successfully completed.' }
+        format.html { redirect_to tasks_url, notice: notice }
         format.json { head :no_content }
       else
         format.html { render :mark }
