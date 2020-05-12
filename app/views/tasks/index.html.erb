@@ -13,8 +13,8 @@
           <th>Labels</th>
           <th>Priority</th>
           <th>Body</th>
-          <th>Start date</th>
-          <th>End date</th>
+          <th>Time Left</th>
+          <th>Status</th>
           <th colspan="3"></th>
         </tr>
       </thead>
@@ -26,8 +26,12 @@
             <td><%= task.labels %></td>
             <td><%= ["High","Medium","Low"][task.priority] %></td>
             <td><%= task.body %></td>
-            <td><%= task.start_date %></td>
-            <td><%= task.end_date %></td>
+            <td class='timer'><%= task.end_date.localtime %></td>
+            <% if task.completed == true %>
+              <td><%= "Completed!" %></td>
+            <% else %>
+              <td><%= "Pending" %></td>
+            <% end %>
             <td><%= link_to 'Show', task %></td>
             <% if task.completed == false %>
               <td><%= link_to 'Done!', mark_path(task.id) %></td>
@@ -43,6 +47,28 @@
     <br>
 
     <%= link_to 'New Task', new_task_path %>
-  </body>
+  </div>
+  <script>
+    timers = document.getElementsByClassName('timer');
+    for (let i=0; i<timers.length; i++) {
+      var countDownDate = new Date(timers[i].textContent).getTime();
+      var x = setInterval(function() {
+        var now = new Date().getTime();
+        var distance = countDownDate - now;
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
+        timers[i].textContent = days + "d " + hours + "h "
+        + minutes + "m " + seconds + "s ";
+
+        // If the count down is finished, write some text
+        if (distance < 0) {
+          clearInterval(x);
+          this.innerHTML = "EXPIRED";
+        }
+      }, 1000);
+    }
+  </script>
 </div>

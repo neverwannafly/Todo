@@ -22,12 +22,12 @@
 
 <p>
   <strong>Start date:</strong>
-  <%= @task.start_date %>
+  <%= @task.start_date.localtime.to_formatted_s :long_ordinal %>
 </p>
 
 <p>
   <strong>End date:</strong>
-  <%= @task.end_date %>
+  <%= @task.end_date.localtime.to_formatted_s :long_ordinal %>
 </p>
 
 <%= link_to 'Edit', edit_task_path(@task) %> |
