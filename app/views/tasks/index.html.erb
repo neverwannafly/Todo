@@ -28,9 +28,9 @@
             <td><%= task.body %></td>
             <td class='timer'><%= task.end_date.localtime %></td>
             <% if task.completed == true %>
-              <td><%= "Completed!" %></td>
+              <td class='status'><%= "Completed!" %></td>
             <% else %>
-              <td><%= "Pending" %></td>
+              <td class='status'><%= "Pending" %></td>
             <% end %>
             <td><%= link_to 'Show', task %></td>
             <% if task.completed == false %>
@@ -48,33 +48,42 @@
 
     <%= link_to 'New Task', new_task_path %>
   </div>
-  <script>
-    timers = document.getElementsByClassName('timer');
-    let end_dates = [];
-    for (let i=0; i<timers.length; i++) {
-      let count_down_date = new Date(timers[i].textContent).getTime();
-      end_dates[i] = count_down_date;
-      let currTime = new Date().getTime();
-      timers[i].textContent = format_time(count_down_date-currTime);
-      let timer = setInterval(() => {
-        let now = new Date().getTime();
-        let distance = end_dates[i] - now;
-        timers[i].textContent = format_time(distance);
-        // If the count down is finished, write some text
-        if (distance < 0) {
-          clearInterval(timer);
-          timers[i].textContent = "EXPIRED";
+  <% if current_page? '/tasks/' %>
+    <script>
+    window.onload = (() => {
+      timers = document.getElementsByClassName('timer');
+      end_dates = [];
+
+      let status = document.getElementsByClassName('status');
+      for (let i=0; i<timers.length; i++) {
+        let count_down_date = new Date(timers[i].textContent).getTime();
+        let currTime = new Date().getTime();
+        end_dates[i] = count_down_date;
+        timers[i].textContent = format_time(count_down_date-currTime);
+        if (status[i].textContent[0] == 'c' || status[i].textContent[0] == 'C') {
+          timers[i].textContent = "FINISHED";
+          continue;
         }
-      }, 1000);
-    };
+        let timer = setInterval(() => {
+          let now = new Date().getTime();
+          let distance = end_dates[i] - now;
+          timers[i].textContent = format_time(distance);
+          if (distance < 0) {
+            clearInterval(timer);
+            timers[i].textContent = "EXPIRED";
+          }
+        }, 1000);
+      };
 
-    function format_time(distance) {
-      var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-      var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-      var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-      var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+      function format_time(distance) {
+        var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-      return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
-    }
-  </script>
+        return days + "d " + hours + "h " + minutes + "m " + seconds + "s ";
+      }
+    })();
+    </script>
+  <% end %>
 </div>
