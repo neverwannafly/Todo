@@ -1,0 +1,11 @@
+<div class="post">
+  <div class="post-head">
+    <div class="name"> Shubham Anand </div>
+  </div>
+  <div class="image center-block">
+    <%= link_to image_tag(post.image, :class => "img-responsive"), post_path(post) %>
+  </div>
+  <p class="caption">
+    <%= post.caption %>
+  </p>
+</div>

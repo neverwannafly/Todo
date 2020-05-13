@@ -1,32 +1,10 @@
 <html>
 <body>
-  <nav class="navbar navbar-expand-lg sticky-top navbar-light bg-light">
-    <a class="navbar-brand" href="#"><strong>INSTAGRAM</strong></a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-      <div class="navbar-nav ml-auto">
-        <a class="nav-item nav-link" href="#">New Post</a>
-        <a class="nav-item nav-link" href="#">Login</a>
-        <a class="nav-item nav-link" href="#">Register</a>
-      </div>
-    </div>
-  </nav>
+  <%= render 'navbar' %>
 
   <div class="posts-wrapper row">
     <% @posts.each do |post| %>
-      <div class="post">
-        <div class="post-head">
-          <div class="name"> Shubham Anand </div>
-        </div>
-        <div class="image center-block">
-          <%= link_to image_tag(post.image, :class => "img-responsive"), post_path(post) %>
-        </div>
-        <p class="caption">
-          <%= post.caption %>
-        </p>
-      </div>
+      <%= render partial: 'image', locals: { post: post } %>
     <% end %>
   </div>
 

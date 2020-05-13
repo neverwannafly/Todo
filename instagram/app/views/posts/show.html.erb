@@ -1,13 +1,14 @@
 <html>
 <body>
 
-  <strong>Image</strong>
-  <div class="img" style="width:600px; height:auto;">
-    <%= image_tag @post.image, :style => "width:100%" %>
-  </div>
+  <%= render 'navbar' %>
 
-  <strong>Caption</strong>
-  <%= @post.caption %>
+  <div class="posts-wrapper row">
+    <%= render partial: 'image', locals: { post: @post } %>
+    <div class="tools">
+      
+    </div>
+  </div>
 
 </body>
 </html>
