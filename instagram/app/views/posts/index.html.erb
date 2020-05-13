@@ -1,0 +1,17 @@
+<html>
+<body>
+  <%= render 'navbar' %>
+
+  <div class="posts-wrapper row">
+    <% if notice != nil %>
+      <div class="notice">
+        <p id="notice" class="btn btn-success btn-block"><%= notice %></p>
+      </div>
+    <% end %>
+    <% @posts.each do |post| %>
+      <%= render partial: 'image', locals: { post: post } %>
+    <% end %>
+  </div>
+
+</body>
+</html>
