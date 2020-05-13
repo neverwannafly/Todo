@@ -2,7 +2,9 @@
 <body>
 
   <strong>Image</strong>
-  <%= image_tag @post.image %>
+  <div class="img" style="width:600px; height:auto;">
+    <%= image_tag @post.image, :style => "width:100%" %>
+  </div>
 
   <strong>Caption</strong>
   <%= @post.caption %>
