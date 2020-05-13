@@ -31,6 +31,26 @@
   margin: 0 auto;
   max-width: 1000px;
   width: 100%;
+  display: flex;
+  flex-direction: row;
+}
+
+.show-tools {
+  margin-top: 25%;
+  background-color: #fff;
+  border-color: #edeeee;
+  border-style: solid;
+  border-radius: 3px;
+  border-width: 1px;
+  margin-bottom: 60px;
+  display: flex;
+  flex-direction: column;
+  width: 400px!important;
+  margin-left: 50px;
+  text-align: center;
+  flex-shrink: 0.8;
+  height: 20%;
+  justify-content: center;
 }
 
 .nav-item {

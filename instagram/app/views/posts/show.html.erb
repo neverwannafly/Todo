@@ -4,9 +4,17 @@
   <%= render 'navbar' %>
 
   <div class="show-wrapper">
-    <%= render partial: 'image', locals: { post: @post } %>
-    <div class="tools">
-
+    <div class="show-img">
+      <%= render partial: 'image', locals: { post: @post } %>
+    </div>
+    <div class="show-tools">
+      <div class="items"> 
+        <%= link_to "Edit", edit_post_path(@post), class: "btn btn-primary btn-block" %>
+      </div>
+      <div class="items">
+        <%= link_to 'Destroy', @post, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-danger btn-block" %>
+      </div>
+      </div>
     </div>
   </div>
 
