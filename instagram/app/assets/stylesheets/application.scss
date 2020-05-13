@@ -26,6 +26,13 @@
   width: 100%;
 }
 
+.show-wrapper {
+  padding-top: 20px;
+  margin: 0 auto;
+  max-width: 1000px;
+  width: 100%;
+}
+
 .nav-item {
   color: #125688!important;
 }
@@ -50,14 +57,11 @@
   }
 }
 
-.image {
+.img-responsive {
+  width: 100%;
   border-bottom: 1px solid #eeefef;
   border-top: 1px solid #eeefef;
   width: 100%;
-}
-
-.img-responsive {
-    width: 100%;
 }
 
 .caption {
@@ -68,7 +72,7 @@
 
 .form-wrapper {
   width: 60%;
-  margin: 20px auto;
+  margin: 100px auto;
   background-color: #fff;
   padding: 40px;
   border: 1px solid #eeefef;

@@ -3,31 +3,33 @@
 
 <%= render 'navbar' %>
 
-<%= form_with(model: @post, local: true) do |form| %>
-  <% if @post.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(@post.errors.count, "error") %> prohibited this @post from being saved:</h2>
-      <ul>
-        <% @post.errors.full_messages.each do |message| %>
-          <li><%= message %></li>
-        <% end %>
-      </ul>
+<div class="container form-wrapper">
+  <%= form_with(model: @post, local: true) do |form| %>
+    <% if @post.errors.any? %>
+      <div id="error_explanation">
+        <h2><%= pluralize(@post.errors.count, "error") %> prohibited this @post from being saved:</h2>
+        <ul>
+          <% @post.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <div class="form-group">
+      <%= form.label :caption %>
+      <%= form.text_area :caption, class: "form-control" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.label :image %>
+      <%= form.file_field :image, class: "form-control" %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit class: "btn btn-primary btn-block" %>
     </div>
   <% end %>
-
-  <div class="field">
-    <%= form.label :caption %>
-    <%= form.text_area :caption %>
-  </div>
-
-  <div class="field">
-    <%= form.label :image %>
-    <%= form.file_field :image %>
-  </div>
-
-  <div class="actions">
-    <%= form.submit %>
-  </div>
-<% end %>
+</div>
 </body>
 </html>
