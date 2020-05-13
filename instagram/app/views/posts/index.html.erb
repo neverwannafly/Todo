@@ -1,6 +1,16 @@
 <html>
 <body>
-  <h1> Hello </h1>
+  <h1> Instagram </h1>
+  <div class="body">
+
+  <% @posts.each do |post| %>
+    <div class="image">
+      <%= link_to image_tag(post.image, :style => "width:100%"), post_path(post) %>
+    </div>
+    <div class="caption">
+      <%= post.caption %>
+    </div>
+  <% end %>
 
 </body>
 </html>
