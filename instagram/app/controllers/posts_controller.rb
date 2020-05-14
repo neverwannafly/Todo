@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :set_post, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.order(created_at: :desc)
+    @posts = Post.order(created_at: :desc).limit(3)
   end
 
   def new
@@ -20,6 +20,14 @@ class PostsController < ApplicationController
   end
 
   def edit
+  end
+
+  # Page numbers should start from 1
+  def paginate
+    page_num = params[:page_num].to_i - 1
+    items_per_page = params[:items_per_page].to_i
+    @post = Post.order(created_at: :desc).offset(page_num*items_per_page).limit(items_per_page)
+    render json: @post
   end
 
   def update
