@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   post '/users', controller:'users', action:'create'
   get '/login', controller:'sessions', action:'new'
   post '/login', controller:'sessions', action:'create'
-  get '/login', controller:'sessions', action:'destroy'
+  get '/logout', controller:'sessions', action:'destroy'
   get '/posts/paginate', controller: 'posts', action: 'paginate'
   resources :posts
   root 'posts#index'

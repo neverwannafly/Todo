@@ -1,4 +1,4 @@
-<%= render 'navbar' %>
+<%= render 'shared/navbar' %>
 
 <div class="posts-wrapper row">
   <% if notice != nil %>
@@ -7,7 +7,7 @@
     </div>
   <% end %>
   <% @posts.each do |post| %>
-    <%= render partial: 'image', locals: { post: post } %>
+    <%= render partial: 'shared/image', locals: { post: post } %>
   <% end %>
 </div>
 
