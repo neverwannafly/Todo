@@ -17,3 +17,14 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 import "bootstrap"
+import { Calendar } from "@fullcalendar/core"
+import timeGridPlugin from "@fullcalendar/timegrid"
+
+document.addEventListener('turbolinks:load', function(){
+  const calendarEl = document.getElementById('calendar');
+  console.log(calendarEl);
+  const calendar = new Calendar(calendarEl, {
+    plugins: [timeGridPlugin],
+  });
+  calendar.render();
+});

@@ -9,7 +9,8 @@ class SessionsController < ApplicationController
       respond_to do |format|
         session[:user_id] = @user.id
         set_user
-        format.html { redirect_to posts_url, notice: "Welcome #{@user.username}" }
+        puts @_current_user
+        format.html { redirect_to interviews_url, notice: "Welcome #{@user.username}" }
       end
     else
       respond_to do |format|
