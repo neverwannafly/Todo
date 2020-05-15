@@ -22,9 +22,11 @@ import timeGridPlugin from "@fullcalendar/timegrid"
 
 document.addEventListener('turbolinks:load', function(){
   const calendarEl = document.getElementById('calendar');
-  console.log(calendarEl);
   const calendar = new Calendar(calendarEl, {
     plugins: [timeGridPlugin],
+    events: {
+      url: '/fetch',
+    }
   });
   calendar.render();
 });

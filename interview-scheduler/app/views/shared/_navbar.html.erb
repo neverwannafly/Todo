@@ -1,16 +1,17 @@
 <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
   <strong>
-    <%= link_to @_current_user.name, posts_path, class: "navbar-brand" %>
+    <%= link_to "Welcome #{current_user.username}", interviews_path, class: "navbar-brand" %>
   </strong>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ml-auto">
-        
-        <%= link_to "Login", login_path, class: "nav-item nav-link" %>
-        <%= link_to "Register", signup_path, class: "nav-item nav-link" %>
+      <% if can_create %>
+        <%= link_to "Create", interviews_path, class: "nav-item nav-link" %>
       <% end %>
+      <%= link_to "My Interviews", interviews_path, class: "nav-item nav-link" %>
+      <%= link_to "Logout", logout_path, class: "nav-item nav-link" %>
     </div>
   </div>
 </nav>
