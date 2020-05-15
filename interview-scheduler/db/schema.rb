@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 2020_05_15_141059) do
     t.boolean "_view"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "token"
+    t.string "password_digest"
   end
 
   create_table "users", force: :cascade do |t|
