@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :set_post, only: [:show, :edit, :update, :destroy]
+  before_action :set_controller, only: [:show, :edit, :update, :destroy]
 
   def index
     @posts = Post.order(created_at: :desc)
@@ -10,9 +10,17 @@ class PostsController < ApplicationController
   end
 
   def create
-    @post = Post.create(post_params)
-    respond_to do |format|
-      format.html { redirect_to posts_url, notice: "Posted successfully." }
+    @post = Post.new post_params
+    @post.user = current_user
+
+    if @post.save
+      respond_to do |format|
+        format.html { redirect_to posts_url, notice: "Posted successfully." }
+      end
+    else
+      respond_to do |format|
+        format.html { redirect_to posts_url, notice: "Post Failed!." }
+      end
     end
   end
 
@@ -20,6 +28,14 @@ class PostsController < ApplicationController
   end
 
   def edit
+  end
+
+  # Page numbers should start from 1
+  def paginate
+    page_num = params[:page_num].to_i - 1
+    items_per_page = params[:items_per_page].to_i
+    @post = Post.order(created_at: :desc).offset(page_num*items_per_page).limit(items_per_page)
+    render json: @post
   end
 
   def update
@@ -47,8 +63,13 @@ private
     params.require(:post).permit(:image, :caption)
   end
 
-  def set_post
-    @post = Post.find(params[:id])
+  def set_controller
+    if current_user
+      @user = User.find(session[:user_id])
+      @post = Post.find(params[:id])
+    else
+      redirect_to login_url
+    end
   end
 
 end

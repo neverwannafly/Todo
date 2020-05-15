@@ -7,9 +7,13 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav ml-auto">
-      <%= link_to "New Post", new_post_path, class: "nav-item nav-link" %>
-      <a class="nav-item nav-link">Login</a>
-      <a class="nav-item nav-link">Register</a>
+      <% if current_user %>
+        <%= link_to "New Post", new_post_path, class: "nav-item nav-link" %>
+        <%= link_to "Logout", logout_path, class: "nav-item nav-link" %>
+      <% else %>
+        <%= link_to "Login", login_path, class: "nav-item nav-link" %>
+        <%= link_to "Register", signup_path, class: "nav-item nav-link" %>
+      <% end %>
     </div>
   </div>
 </nav>

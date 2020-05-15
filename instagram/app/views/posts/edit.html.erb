@@ -1,8 +1,4 @@
-<html>
-<body>
-  <%= render 'navbar' %>
-  <div class="container form-wrapper">
-    <%= render partial: 'form', locals: {post: @post} %>
-  </div>
-</body>
-</html>
+<%= render 'shared/navbar' %>
+<div class="container form-wrapper">
+  <%= render partial: 'shared/form', locals: {post: @post} %>
+</div>

@@ -1,17 +1,10 @@
-<html>
-<body>
-  <%= render 'navbar' %>
+<%= render 'shared/navbar' %>
 
-  <div class="posts-wrapper row">
-    <% if notice != nil %>
-      <div class="notice">
-        <p id="notice" class="btn btn-success btn-block"><%= notice %></p>
-      </div>
-    <% end %>
-    <% @posts.each do |post| %>
-      <%= render partial: 'image', locals: { post: post } %>
-    <% end %>
-  </div>
+<div class="posts-wrapper row">
+  <%= render partial: 'shared/notice', locals: {notice:notice, color: :green} %>
+  <% @posts.each do |post| %>
+    <%= render partial: 'shared/image', locals: { post: post } %>
+  <% end %>
+</div>
 
-</body>
-</html>
+<%= javascript_pack_tag 'scroll' %>
