@@ -1,11 +1,7 @@
 <%= render 'shared/navbar' %>
 
 <div class="posts-wrapper row">
-  <% if notice != nil %>
-    <div class="notice">
-      <p id="notice" class="btn btn-success btn-block"><%= notice %></p>
-    </div>
-  <% end %>
+  <%= render partial: 'shared/notice', locals: {notice:notice, color: :green} %>
   <% @posts.each do |post| %>
     <%= render partial: 'shared/image', locals: { post: post } %>
   <% end %>
