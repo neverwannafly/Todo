@@ -1,6 +1,10 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception 
-  helper_methods: set_user, can_edit, can_view, can_update, can_create
+  helper_method :set_user
+  # helper_methods: can_edit
+  # helper_methods: can_view
+  # helper_methods: can_update
+  # helper_methods: can_create
 
 private
 
@@ -9,6 +13,7 @@ private
       @_current_user ||= User.find_by(id: session[:user_id]) 
     else
       @_current_user = nil
+    end
   end
 
   def can_edit

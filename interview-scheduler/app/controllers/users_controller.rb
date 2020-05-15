@@ -5,13 +5,13 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new user_params
-    @user.role = Role.find(params[:role_id])
-    if @user.role && @user.role.authenticate(params[:role_token])
+    @user.role = Role.find(params[:user][:role_id])
+    if @user.role && @user.role.authenticate(params[:user][:role_token])
       if @user.save
         respond_to do |format|
           session[:user_id] = @user.id
           set_user
-          format.html { redirect_to posts_url, notice: "Welcome #{@user.username}" }
+          format.html { redirect_to index_url, notice: "Welcome #{@user.username}" }
         end
       else
         respond_to do |format|

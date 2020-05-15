@@ -1,6 +1,6 @@
 <div class="container form-wrapper">
   <%= render partial: 'shared/notice', locals: {notice:notice, color: :red} %>
-  <%= form_with(url: signup_path, local: true) do |form| %>
+  <%= form_with(model: @user, local: true, url: signup_path) do |form| %>
     <div class="form-group">
       <%= form.label :name %>
       <%= form.text_field :name, class: "form-control" %>
@@ -24,6 +24,16 @@
     <div class="form-group">
       <%= form.label :password_confirmation %>
       <%= form.password_field :password_confirmation, class: "form-control" %>
+    </div>
+
+    <div class="hidden">
+      <%= form.label :role_id %>
+      <%= form.text_field :role_id, class: "form-control", value: "1" %>
+    </div>
+
+    <div class="hidden">
+      <%= form.label :role_token %>
+      <%= form.text_field :role_token, class: "form-control", value: "0xffffffffff" %>
     </div>
 
     <div class="actions">
