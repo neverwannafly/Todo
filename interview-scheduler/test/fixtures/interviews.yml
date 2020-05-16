@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  start: 2020-05-15 22:56:25
+  end: 2020-05-15 22:56:25
+  comments: MyString
+  title: MyString
+  agenda: MyString
+
+two:
+  start: 2020-05-15 22:56:25
+  end: 2020-05-15 22:56:25
+  comments: MyString
+  title: MyString
+  agenda: MyString

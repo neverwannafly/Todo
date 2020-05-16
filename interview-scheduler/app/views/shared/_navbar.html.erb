@@ -1,0 +1,19 @@
+<nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
+  <strong>
+    <%= link_to "Welcome #{current_user.username}", interviews_path, class: "navbar-brand" %>
+  </strong>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav ml-auto">
+      <% if can_create %>
+      <a class="nav-item nav-link" data-toggle="modal" data-target="#exampleModal" href="">
+        Create Interview
+      </a>
+      <% end %>
+      <%= link_to "My Interviews", interviews_path, class: "nav-item nav-link" %>
+      <%= link_to "Logout", logout_path, class: "nav-item nav-link" %>
+    </div>
+  </div>
+</nav>

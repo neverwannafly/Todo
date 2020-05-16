@@ -1,0 +1,18 @@
+<% if notice != nil %>
+  <% if color == :red %>
+    <div class="notice alert alert-danger alert-dismissible fade show" role="alert">
+  <% elsif color == :green %>
+    <div class="notice alert alert-success alert-dismissible fade show" role="alert">
+  <% elsif color == :blue %>
+    <div class="notice alert alert-primary alert-dismissible fade show" role="alert">
+  <% else %>
+    <div class="notice alert alert-warning alert-dismissible fade show" role="alert">
+  <% end %>
+    <strong>
+      <p id="notice"><%= notice %></p>
+    </strong>
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+<% end %>
