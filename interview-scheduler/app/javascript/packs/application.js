@@ -38,6 +38,7 @@ document.addEventListener('turbolinks:load', function(){
     create: false,
     persist: false,
     maxItems: null,
+    delimiter: ',',
     valueField: 'id',
     labelField: 'username',
     searchField: ['username'],
