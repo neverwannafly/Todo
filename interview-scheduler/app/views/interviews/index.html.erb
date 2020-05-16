@@ -2,5 +2,6 @@
 <%= render partial: 'shared/modal', locals: { interview: @interview } %>
 
 <div class="calendar-wrapper">
+  <%= render partial: 'shared/notice', locals: { notice: notice, color: :green} %>
   <div id="calendar">
 </div>

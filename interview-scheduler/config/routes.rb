@@ -8,6 +8,7 @@ Rails.application.routes.draw do
 
   # Interview views
   get   '/interviews', controller:'interviews', action:'index'
+  post  '/interviews', controller:'interviews', action:'create'
 
   # API's
   get   '/interviews/fetch',  controller:'interviews',  action: 'fetch'
