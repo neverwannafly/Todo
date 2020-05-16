@@ -16,7 +16,10 @@ require("channels")
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
 
+import $ from "jquery"
+
 import "bootstrap"
+import "./selectize.min"
 import { Calendar } from "@fullcalendar/core"
 import timeGridPlugin from "@fullcalendar/timegrid"
 
@@ -25,8 +28,39 @@ document.addEventListener('turbolinks:load', function(){
   const calendar = new Calendar(calendarEl, {
     plugins: [timeGridPlugin],
     events: {
-      url: '/fetch',
+      url: 'interviews/fetch',
     }
   });
   calendar.render();
+
+  $('#find-users').selectize({
+    options: [],
+    create: false,
+    persist: false,
+    maxItems: null,
+    valueField: 'id',
+    labelField: 'username',
+    searchField: ['username'],
+    render: {
+      option: function (item, escape) {
+        return '<div>' + escape(item.username) + '</div>';
+      }
+    },
+    load: function(query, callback) {
+      if (!query.length) return callback();
+      $.ajax({
+        url: 'users/fetch',
+        type: 'GET',
+        data: {
+          query: query,
+        },
+        error: function() {
+            callback();
+        },
+        success: function(res) {
+          callback(res);
+        }
+      });
+    }
+  });
 });

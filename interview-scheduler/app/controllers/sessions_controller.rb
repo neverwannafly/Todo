@@ -8,8 +8,6 @@ class SessionsController < ApplicationController
     if @user && @user.authenticate(params[:password])
       respond_to do |format|
         session[:user_id] = @user.id
-        set_user
-        puts @_current_user
         format.html { redirect_to interviews_url, notice: "Welcome #{@user.username}" }
       end
     else
@@ -22,7 +20,6 @@ class SessionsController < ApplicationController
   def destroy
     respond_to do |format|
       session[:user_id] = nil
-      set_user
       format.html { redirect_to login_url, notice: "Successfully Logged out" }
     end
   end

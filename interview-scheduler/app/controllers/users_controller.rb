@@ -24,6 +24,11 @@ class UsersController < ApplicationController
     end
   end
 
+  def fetch
+    users = User.where "username like ?", "%#{params[:query]}%"
+    render json: users
+  end
+
 private
 
   def user_params

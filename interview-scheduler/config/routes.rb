@@ -10,7 +10,8 @@ Rails.application.routes.draw do
   get   '/interviews', controller:'interviews', action:'index'
 
   # API's
-  get   '/fetch', controller:'interviews', action: 'fetch'
+  get   '/interviews/fetch',  controller:'interviews',  action: 'fetch'
+  get   '/users/fetch',       controller:'users',       action: 'fetch'
 
   root 'interviews#index'
 end
