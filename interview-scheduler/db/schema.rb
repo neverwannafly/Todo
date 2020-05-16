@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_16_184847) do
+ActiveRecord::Schema.define(version: 2020_05_16_213311) do
 
   create_table "interviews", force: :cascade do |t|
     t.datetime "start"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(version: 2020_05_16_184847) do
   end
 
   add_foreign_key "interviews", "users"
-  add_foreign_key "user_interviews", "interviews"
-  add_foreign_key "user_interviews", "users"
+  add_foreign_key "user_interviews", "interviews", on_delete: :cascade
+  add_foreign_key "user_interviews", "users", on_delete: :cascade
   add_foreign_key "users", "roles"
 end
