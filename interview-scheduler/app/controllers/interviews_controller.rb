@@ -28,10 +28,10 @@ class InterviewsController < ApplicationController
         :id => interview.id,
         :agenda => interview.agenda,
         :members => members,
-        :start => interview.start,
-        :end => interview.end,
+        :start => interview.start.to_formatted_s(:short),
+        :end => interview.end.to_formatted_s(:short),
         :comments => interview.comments,
-        :created_by => interview.user_id,
+        :created_by => interview.user.username,
       }
     else
       render json: {}

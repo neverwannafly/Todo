@@ -36,7 +36,14 @@ document.addEventListener('turbolinks:load', function(){
         url: `api/interviews/get/${interviewId}`,
         type: 'GET',
         success: function(data) {
-          console.log(data);
+          console.log(data.agenda);
+          $("#_agenda").text(data.agenda);
+          $("#_members").text(data.members);
+          $("#_start").text(data.start);
+          $("#_end").text(data.end);
+          $("#_comments").text(data.comments);
+          $("#_created_by").text(data.created_by);
+          $("#interviewModal").modal('show');
         }
       });
     }
