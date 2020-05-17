@@ -1,16 +1,49 @@
 class InterviewsController < ApplicationController
   def index
-    @interview = Interview.new
+    if can_view
+      @interview = Interview.new
+    else
+      redirect_to login_path
+    end
   end
 
+  # Fetch interviews by date
   def fetch
     if can_view
       start_time = params[:start].to_datetime.beginning_of_day
       end_time = params[:end].to_datetime.end_of_day
-      @interviews = Interview.where(:start => start_time..end_time)
-      render json: @interviews
+      interviews = Interview.where(:start => start_time..end_time)
+      render json: interviews
     else
       render json: {}
+    end
+  end
+
+  # Get a single interview
+  def get
+    if can_view
+      interview = Interview.find(params[:id])
+      members = User.where(:id => UserInterview.where(:interview_id => interview.id).pluck(:user_id)).pluck(:username ).join ","
+      render json: {
+        :id => interview.id,
+        :agenda => interview.agenda,
+        :members => members,
+        :start => interview.start,
+        :end => interview.end,
+        :comments => interview.comments,
+        :created_by => interview.user_id,
+      }
+    else
+      render json: {}
+    end
+  end
+
+  # get interviews of a particular user
+  def user_interviews
+    if can_view
+      @interviews = Interview.where(:id => UserInterview.where(:user_id => current_user).pluck(:interview_id))
+    else
+      redirect_to signup_url
     end
   end
 
@@ -41,7 +74,7 @@ class InterviewsController < ApplicationController
         end
       end
     else
-      redirect_to interviews_url
+      redirect_to signup_url
     end
   end
 
