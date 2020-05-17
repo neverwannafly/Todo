@@ -71,7 +71,9 @@ class InterviewsController < ApplicationController
             user_interview = UserInterview.new
             user_interview.interview_id = @interview.id
             user_interview.user_id = member
-            user_interview.save
+            if user_interview.save
+              InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_now
+            end
           end
           respond_to do |format|
             format.html { redirect_to interviews_url, notice: "Interview successfully scheduled!"}
