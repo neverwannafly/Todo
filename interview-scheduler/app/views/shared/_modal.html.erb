@@ -8,43 +8,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <%= form_with(model: interview, local: true, id: "create_interview") do |form| %>
-
-          <div class="form-group">
-            <%= form.label :title %>
-            <%= form.text_field :title, class: "form-control" %>
-          </div>
-
-          <div class="form-group">
-            <%= form.label :agenda %>
-            <%= form.text_field :agenda, class: "form-control"%>
-          </div>
-
-          <div class="form-group">
-            <%= form.label :members %>
-            <%= form.text_field :members, class: "form-control", id:"find-users" %>
-            </select>
-          </div>
-
-          <div class="form-group">
-            <%= form.label :start %>
-            <%= form.datetime_field :start, class: "form-control", id: "dtp_beg" %>
-          </div>
-
-          <div class="form-group">
-            <%= form.label :end %>
-            <%= form.datetime_field :end, class: "form-control", id: "dtp_end" %>
-          </div>
-
-          <div class="form-group">
-            <%= form.label :comments %>
-            <%= form.text_area :comments, class: "form-control"%>
-          </div>
-
-          <div class="actions">
-            <%= form.submit "Create", class: "btn btn-primary btn-block" %>
-          </div>
-        <% end %>
+        <%= render partial: 'shared/form', locals: {interview: interview} %>
       </div>
     </div>
   </div>
@@ -92,7 +56,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-outline-info">Edit</button>
+        <%= link_to 'Edit', '/interviews/', id: "_update_int_id", class: "btn btn-outline-info", method: :patch %>
         <%= link_to 'Delete', '/interviews/', id: "_delete_int_id", class: "btn btn-outline-danger", method: :delete, data: { confirm: 'Are you sure?' } %>
         <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
       </div>

@@ -47,6 +47,10 @@ class InterviewsController < ApplicationController
     end
   end
 
+  def update
+    @interview = Interview.find(params[:id])
+  end
+
   def delete
     if can_delete
       Interview.delete(params[:id])

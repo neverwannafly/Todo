@@ -28,12 +28,12 @@ document.addEventListener('turbolinks:load', function(){
   const calendar = new Calendar(calendarEl, {
     plugins: [timeGridPlugin],
     events: {
-      url: 'api/interviews/fetch',
+      url: '/api/interviews/fetch',
     },
     eventClick: function(info) {
       const interviewId = info.event.id;
       $.ajax({
-        url: `api/interviews/get/${interviewId}`,
+        url: `/api/interviews/get/${interviewId}`,
         type: 'GET',
         success: function(data) {
           console.log(data.agenda);
@@ -45,6 +45,7 @@ document.addEventListener('turbolinks:load', function(){
           $("#_created_by").text(data.created_by);
           const url = $("#_delete_int_id").attr('href');
           $("#_delete_int_id").attr('href', `${url}${data.id}`);
+          $("#_update_int_id").attr('href', `${url}${data.id}`);
           $("#interviewModal").modal('show');
         }
       });
@@ -69,7 +70,7 @@ document.addEventListener('turbolinks:load', function(){
     load: function(query, callback) {
       if (!query.length) return callback();
       $.ajax({
-        url: 'api/users/fetch',
+        url: '/api/users/fetch',
         type: 'GET',
         data: {
           query: query,
