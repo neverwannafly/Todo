@@ -3,7 +3,7 @@ class ApplicationController < ActionController::Base
   helper_method :current_user
   helper_method :can_edit
   helper_method :can_view
-  helper_method :can_update
+  helper_method :can_delete
   helper_method :can_create
 
 private
@@ -33,9 +33,9 @@ private
     end
   end
 
-  def can_update
+  def can_delete
     if current_user
-      return current_user.role._update
+      return current_user.role._delete
     else
       return false
     end
