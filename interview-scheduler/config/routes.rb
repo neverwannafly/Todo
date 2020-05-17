@@ -7,12 +7,14 @@ Rails.application.routes.draw do
   get   '/logout',  controller:'sessions',  action:'destroy'
 
   # Interview views
-  get   '/interviews', controller:'interviews', action:'index'
-  post  '/interviews', controller:'interviews', action:'create'
+  get   '/interviews',      controller:'interviews', action:'index'
+  post  '/interviews',      controller:'interviews', action:'create'
+  get   '/interviews/:id',  controller:'interviews', action:'user_interviews', as: :user_interviews
 
   # API's
-  get   '/interviews/fetch',  controller:'interviews',  action: 'fetch'
-  get   '/users/fetch',       controller:'users',       action: 'fetch'
+  get   '/api/interviews/fetch',  controller:'interviews',  action: 'fetch'
+  get   '/api/interviews/get/:id',controller:'interviews',  action: 'get'
+  get   '/api/users/fetch',       controller:'users',       action: 'fetch'
 
   root 'interviews#index'
 end

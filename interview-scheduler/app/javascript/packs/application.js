@@ -28,7 +28,17 @@ document.addEventListener('turbolinks:load', function(){
   const calendar = new Calendar(calendarEl, {
     plugins: [timeGridPlugin],
     events: {
-      url: 'interviews/fetch',
+      url: 'api/interviews/fetch',
+    },
+    eventClick: function(info) {
+      const interviewId = info.event.id;
+      $.ajax({
+        url: `api/interviews/get/${interviewId}`,
+        type: 'GET',
+        success: function(data) {
+          console.log(data);
+        }
+      });
     }
   });
   calendar.render();
@@ -50,7 +60,7 @@ document.addEventListener('turbolinks:load', function(){
     load: function(query, callback) {
       if (!query.length) return callback();
       $.ajax({
-        url: 'users/fetch',
+        url: 'api/users/fetch',
         type: 'GET',
         data: {
           query: query,
