@@ -10,6 +10,7 @@ Rails.application.routes.draw do
   get   '/interviews',      controller:'interviews', action:'index'
   post  '/interviews',      controller:'interviews', action:'create'
   get   '/interviews/:id',  controller:'interviews', action:'user_interviews', as: :user_interviews
+  delete'/interviews/:id',  controller:'interviews', action:'delete'
 
   # API's
   get   '/api/interviews/fetch',  controller:'interviews',  action: 'fetch'

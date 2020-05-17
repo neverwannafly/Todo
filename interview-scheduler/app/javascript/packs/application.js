@@ -43,6 +43,8 @@ document.addEventListener('turbolinks:load', function(){
           $("#_end").text(data.end);
           $("#_comments").text(data.comments);
           $("#_created_by").text(data.created_by);
+          const url = $("#_delete_int_id").attr('href');
+          $("#_delete_int_id").attr('href', `${url}${data.id}`);
           $("#interviewModal").modal('show');
         }
       });

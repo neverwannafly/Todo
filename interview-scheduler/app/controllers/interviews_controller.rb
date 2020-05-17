@@ -47,6 +47,15 @@ class InterviewsController < ApplicationController
     end
   end
 
+  def delete
+    if can_delete
+      Interview.delete(params[:id])
+      redirect_to interviews_url, notice: "Successfully deleted!"
+    else
+      redirect_to interviews_url, notice: "Not sufficient permission to delete!"
+    end
+  end
+
   def create
     if can_create
       @interview = Interview.new interview_params
