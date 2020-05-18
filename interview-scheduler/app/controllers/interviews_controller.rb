@@ -49,12 +49,17 @@ class InterviewsController < ApplicationController
 
   def update
     if can_edit
-      @interviews = Interview.find(:id)
+      @interview = Interview.find(params[:id])
       @members = UserInterview.where(:interview_id => @interview.id).pluck(:user_id)
       if !check_conflicts(@members)
-        if Interview.update interview_params
-          send_time = Time.now + 10.seconds
-          InterviewMailer.with(:interview=>@interview, :user_id=>member).updation_mails.deliver_later(wait_until: send_time)
+        if @interview.update interview_params
+          @members.each do |member|
+            now = Time.now + 5.seconds
+            send_time = @interview.start - 30.minutes
+            InterviewMailer.with(:interview=>@interview, :user_id=>member).updation_mails.deliver_later(wait_until: now)
+            InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_later(wait_until: send_time)
+          end
+          redirect_to interviews_url, notice: "Successfully updated!"
         end
       end
     else
