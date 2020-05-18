@@ -127,8 +127,10 @@ private
     end_time = @interview.end - 1.second
     interviews = UserInterview.where(user_id: members)
     interviews.each do |interview|
-      query = Interview.where(:id => interview.interview_id, :start => start_time..end_time).or(Interview.where(:id => interview.interview_id, :end => start_time..end_time-1.minutes))
-      if query.count != 0
+      upper_threshold = Time.now + 1000.years
+      lower_threshold = Time.now - 1000.years
+      query = Interview.where(:id => interview.interview_id, :start => end_time..upper_threshold).or(Interview.where(:id => interview.interview_id, :end => lower_threshold..start_time))
+      if query.count != Interview.where(:id=>interview.interview_id).count
         conflicts = true
         break
       end
