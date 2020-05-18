@@ -17,3 +17,60 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 import "bootstrap"
+import $ from "jquery"
+
+let currentPage;
+let itemsPerPage;
+let url;
+let processed;
+
+$(document).on('turbolinks:load', function() {
+  currentPage = 1;
+  itemsPerPage = 3;
+  url = `/posts/paginate`;
+  processed = false;
+});
+
+$(document).on('scroll' ,function(){
+  let $contentDiv = $('#user-posts');
+  if ($contentDiv != null) {
+    const maxHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+    const position = document.documentElement.scrollTop;
+    const threshold = 500;
+    if (maxHeight - position <= threshold && !processed) {
+      $.ajax({
+        url: url,
+        data: {
+          page_num: currentPage + (processed = !processed),
+          items_per_page: itemsPerPage,
+        },
+        success: function(data) {
+          currentPage += 1;
+          createPost(data, $contentDiv);
+          processed = false;
+        }
+      });
+    }
+  }
+});
+
+function createPost(data, $el) {
+  console.log(data);
+  for (let i=0; i<data.length; i++) {
+    const html = `
+      <div class="post">
+        <div class="post-head">
+          <div class="name">
+            ${data[i].user}
+          </div>
+        </div>
+        <div class="image center-block">
+          <a href="/posts/${data[i].id}"><img class="img-responsive" src="${data[i].img}"></a>
+        </div>
+        <p class="caption">
+          ${data[i].caption}
+        </p>
+      </div>`;
+    $el.append(html);
+  }
+}

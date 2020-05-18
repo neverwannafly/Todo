@@ -1,10 +1,8 @@
 <%= render 'shared/navbar' %>
 
-<div class="posts-wrapper row">
+<div id="user-posts" class="posts-wrapper row">
   <%= render partial: 'shared/notice', locals: {notice:notice, color: :green} %>
   <% @posts.each do |post| %>
     <%= render partial: 'shared/image', locals: { post: post } %>
   <% end %>
 </div>
-
-<%= javascript_pack_tag 'scroll' %>
