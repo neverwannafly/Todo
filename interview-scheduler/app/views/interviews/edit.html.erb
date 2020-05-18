@@ -1,6 +1,6 @@
 <%= render 'shared/navbar' %>
-<%= render partial: 'shared/modal', locals: {interview: @interview} %>
 
 <div class="form-wrapper">
-  <%= render partial: 'shared/form', locals: {interview: @interview} %>
+  <%= render partial: 'shared/notice', locals: {color: :blue} %>
+  <%= render partial: 'shared/edit', locals: {interview: @interview} %>
 </div>

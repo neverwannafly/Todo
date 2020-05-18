@@ -48,7 +48,12 @@ class InterviewsController < ApplicationController
   end
 
   def update
+    
+  end
+
+  def edit
     @interview = Interview.find(params[:id])
+    @members = User.where(:id => UserInterview.where(:interview_id => @interview.id).pluck(:user_id)).pluck(:username ).join ","
   end
 
   def delete
