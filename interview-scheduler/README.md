@@ -1,24 +1,15 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+## Features
+* Role assignment among users, i.e admin, user, super-admin etc
+* Autocomple UI for filling up interviewee names
+* Calendar and Table UI to display interviews
+* Create/Edit/Delete interviews by only admins
+* Authentication and Authorization
+* Ability to upload resumes from user's profile
+* Send reminder and updation mails to users prior to interview
 
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## Development Setup
+* run sidekiq server: `bundle exec sidekiq -q default -q mailers`
+* run redis server:   `redis-server`
+* run rails server:   `rails server`
