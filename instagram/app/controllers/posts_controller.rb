@@ -2,7 +2,7 @@ class PostsController < ApplicationController
   before_action :set_controller, only: [:show, :edit, :update, :destroy]
 
   def index
-    @posts = Post.order(created_at: :desc)
+    @posts = Post.order(created_at: :desc).limit(3)
   end
 
   def new
@@ -34,8 +34,17 @@ class PostsController < ApplicationController
   def paginate
     page_num = params[:page_num].to_i - 1
     items_per_page = params[:items_per_page].to_i
-    @post = Post.order(created_at: :desc).offset(page_num*items_per_page).limit(items_per_page)
-    render json: @post
+    @posts = Post.order(created_at: :desc).offset(page_num*items_per_page).limit(items_per_page)
+    json_response = []
+    @posts.each do |post| 
+      json_response.insert(-1, {
+        :id => post.id,
+        :caption => post.caption,
+        :user => post.user.username,
+        :img => url_for(post.image)
+      })
+    end
+    render json: json_response
   end
 
   def update
