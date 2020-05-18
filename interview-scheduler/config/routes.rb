@@ -5,6 +5,8 @@ Rails.application.routes.draw do
   get   '/login',   controller:'sessions',  action:'new'
   post  '/login',   controller:'sessions',  action:'create'
   get   '/logout',  controller:'sessions',  action:'destroy'
+  get   '/user/:id',controller:'users',     action:'profile', as: :profile
+  patch '/user/:id',controller:'users',     action:'upload', as: :upload
 
   # Interview views
   get   '/interviews',      controller:'interviews', action:'index'

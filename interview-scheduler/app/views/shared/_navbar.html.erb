@@ -12,6 +12,7 @@
         Create Interview
       </a>
       <% end %>
+      <%= link_to "My Profile", profile_path(current_user), class: "nav-item nav-link" %>
       <%= link_to "My Interviews", user_interviews_path(current_user), class: "nav-item nav-link" %>
       <%= link_to "Logout", logout_path, class: "nav-item nav-link" %>
     </div>
