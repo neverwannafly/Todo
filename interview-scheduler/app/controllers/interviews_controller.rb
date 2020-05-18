@@ -48,12 +48,27 @@ class InterviewsController < ApplicationController
   end
 
   def update
-    
+    if can_edit
+      @interviews = Interview.find(:id)
+      @members = UserInterview.where(:interview_id => @interview.id).pluck(:user_id)
+      if !check_conflicts(@members)
+        if Interview.update interview_params
+          send_time = Time.now + 10.seconds
+          InterviewMailer.with(:interview=>@interview, :user_id=>member).updation_mails.deliver_later(wait_until: send_time)
+        end
+      end
+    else
+      redirect_to interviews_url, notice: "Not sufficient permission to update!"
+    end
   end
 
   def edit
-    @interview = Interview.find(params[:id])
-    @members = User.where(:id => UserInterview.where(:interview_id => @interview.id).pluck(:user_id)).pluck(:username ).join ","
+    if can_edit
+      @interview = Interview.find(params[:id])
+      @members = User.where(:id => UserInterview.where(:interview_id => @interview.id).pluck(:user_id)).pluck(:username ).join ","
+    else
+      redirect_to interviews_url, notice: "Not sufficient permission to update!"
+    end
   end
 
   def delete
@@ -95,7 +110,7 @@ class InterviewsController < ApplicationController
         end
       end
     else
-      redirect_to signup_url
+      redirect_to interviews_url, notice: "Not sufficient permission to delete!"
     end
   end
 

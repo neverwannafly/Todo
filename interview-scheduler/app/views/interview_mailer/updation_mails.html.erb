@@ -1,0 +1,18 @@
+<html>
+  <head>
+    <meta content='text/html; charset=UTF-8' http-equiv='Content-Type' />
+  </head>
+  <body>
+    <p> Hello <%= @user.username %> </p>
+    <p> The following interview's schedule has changed!</p>
+    <p> Please refer the new schedule </p>
+    <p>
+    Interview Details<br>
+    --------------------------
+    </p>
+    <p>Title: <%= @interview.title %></p>
+    <p>Agenda: <%= @interview.agenda %></p>
+    <p>Start Time: <%= @interview.start %></p>
+    <p>End Time: <%= @interview.end %></p>
+  </body>
+</html>
