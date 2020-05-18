@@ -36,7 +36,18 @@ Rails.application.configure do
 
   config.action_mailer.perform_caching = false
 
-  # Print deprecation notices to the Rails logger.
+  host = 'localhost:3000'
+  config.action_mailer.default_url_options = { :host => host, protocol: 'http' }
+  config.action_mailer.smtp_settings = {
+    :address              => "smtp.gmail.com",
+    :port                 => 587,
+    :user_name            => "s0.alivelypythontest@gmail.com",
+    :password             => "10p17fs0008",
+    :authentication       => "plain",
+    :enable_starttls_auto => true
+  }
+
+  # Prt deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
 
   # Raise an error on page load if there are pending migrations.

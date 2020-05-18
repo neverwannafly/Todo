@@ -1,3 +1,6 @@
+<div class="container header">
+  <h1 class="display-3">Interview Scheduler</h1>
+</div>
 <div class="container form-wrapper">
   <%= render partial: 'shared/notice', locals: {notice:notice, color: :red} %>
   <%= form_with(url: login_path, local: true) do |form| %>
@@ -13,6 +16,10 @@
 
     <div class="actions">
       <%= form.submit "Login", class: "btn btn-primary btn-block" %>
+    </div>
+
+    <div class="link-switch">
+      <%= link_to "New User? Create an account to continue!", signup_path, class: "btn btn-outline-dark btn-block" %>
     </div>
   <% end %>
 </div>

@@ -24,6 +24,17 @@ class UsersController < ApplicationController
     end
   end
 
+  def profile
+    @user = User.find(params[:id])
+  end
+
+  def upload
+    @user = User.find(params[:id])
+    @user.resume.attach(params[:user][:resume])
+    @user.save
+    redirect_to upload_path, notice: "Resume uploaded Successfully!"
+  end
+
   def fetch
     users = User.where "username like ?", "%#{params[:query]}%"
     render json: users

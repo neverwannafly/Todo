@@ -5,4 +5,5 @@ class User < ApplicationRecord
   validates :name, presence: true
   belongs_to :role
   has_many :user_interviews, dependent: :delete_all
+  has_one_attached :resume
 end

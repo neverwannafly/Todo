@@ -1,0 +1,19 @@
+<%= render 'shared/navbar' %>
+
+<%= render partial: 'shared/modal', locals: {interview: @interview } %>
+<div class="container">
+  <%= render partial: 'shared/notice', locals:{color: :green} %>
+  <div class="center">
+    <%= image_tag @user.resume.preview(resize_to_limit: [1000, 1000]) if @user.resume.attached? %>
+  </div>
+  <div class="center">
+    <%= form_with(model: @user, url: upload_path, local: true) do |form| %>
+      <div class="form-group form-inline">
+        <%= form.file_field :resume %>
+      </div>
+      <div class="actions form-group form-inline">
+        <%= form.submit "Upload Resume", class: "btn btn-primary btn-block" %>
+      </div>
+    <%end%>
+  </div>
+</div>
