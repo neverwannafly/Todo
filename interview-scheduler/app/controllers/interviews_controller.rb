@@ -72,7 +72,8 @@ class InterviewsController < ApplicationController
             user_interview.interview_id = @interview.id
             user_interview.user_id = member
             if user_interview.save
-              InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_now
+              send_time = @interview.start - 30.minutes
+              InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_later(wait_until: send_time)
             end
           end
           respond_to do |format|
