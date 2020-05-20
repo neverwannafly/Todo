@@ -72,6 +72,7 @@ class UsersController < ApplicationController
         success: false,
         error: "Not owner of this account",
       }
+    end
   end
 
   def fetch
