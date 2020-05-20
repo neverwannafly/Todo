@@ -1,11 +1,4 @@
 class InterviewsController < ApplicationController
-  def index
-    if can_view
-      @interview = Interview.new
-    else
-      redirect_to login_path
-    end
-  end
 
   # Fetch interviews by date
   def fetch
