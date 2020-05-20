@@ -1,9 +1,9 @@
-import Index from "./views/pages/Index.js";
-import Signup from "./views/pages/Signup.js";
-import Signin from "./views/pages/Signin.js";
-import UserProfile from "./views/pages/UserProfile.js";
-import UserInterview from "./views/pages/UserInterview.js";
-import EditInterview from "./views/pages/EditInterview.js";
+import Index from "../views/pages/Index.js";
+import Signup from "../views/pages/Signup.js";
+import Signin from "../views/pages/Signin.js";
+import UserProfile from "../views/pages/UserProfile.js";
+import UserInterview from "../views/pages/UserInterview.js";
+import EditInterview from "../views/pages/EditInterview.js";
 
 class Router {
   constructor() {
@@ -43,4 +43,6 @@ class Router {
   }
 };
 
-export default Router;
+const router = new Router();
+
+export default router;

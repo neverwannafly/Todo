@@ -1,9 +1,7 @@
 "use strict";
 
-import Router from "./Router.js";
+import router from "./services/Router.js";
 import Error404 from "./views/pages/Error404.js";
-
-let router = new Router();
 
 const renderPage = async () => {
   let view = router.match();
