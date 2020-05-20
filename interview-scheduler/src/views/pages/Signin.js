@@ -43,8 +43,8 @@ let Signin = {
         type: 'POST',
         success: async (data) => {
           if (data.success) {
-            await SetUser(data.user);
-            await Redirect('/');
+            SetUser(data.user);
+            Redirect('/');
           }
           else {
             console.log(data.error);
