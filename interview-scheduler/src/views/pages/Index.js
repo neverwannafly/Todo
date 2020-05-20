@@ -24,15 +24,16 @@ let Index = {
     const calendarEl = document.getElementById('calendar-root');
     const createInterview = document.getElementById('create-interview-root');
     const viewInterview = document.getElementById('view-interview-root');
+    const userData = GetUser();
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: ['timeGrid'],
       events: {
         url: `${ServerPreifx}/api/interviews/fetch`,
         extraParams: {
-          user_id: GetUser.userId,
-          token: GetUser.token,
-        }
+          user_id: userData.userId,
+          token: userData.token,
+        },
       },
       eventClick: function(info) {
         const interviewId = info.event.id;
