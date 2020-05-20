@@ -8,6 +8,15 @@ class ApplicationController < ActionController::Base
 
 private
 
+  def generate_token
+    length = 64
+    return rand(36**length).to_s(36)
+  end
+
+  def validate_token(token)
+    return current_user.token == token
+  end
+
   def current_user 
     if session[:user_id] 
       @_current_user ||= User.find_by(id: session[:user_id]) 
