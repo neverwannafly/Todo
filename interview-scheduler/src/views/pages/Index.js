@@ -37,20 +37,26 @@ let Index = {
       },
       eventClick: function(info) {
         const interviewId = info.event.id;
+        const userData = GetUser();
         $.ajax({
           url: `${ServerPreifx}/api/interviews/get/${interviewId}`,
+          data: {
+            user_id: userData.userId,
+            token: userData.token,
+          },
           type: 'GET',
           success: function(data) {
-            console.log(data.agenda);
+            $("#_title").text(data.title);
             $("#_agenda").text(data.agenda);
             $("#_members").text(data.members);
             $("#_start").text(data.start);
             $("#_end").text(data.end);
             $("#_comments").text(data.comments);
             $("#_created_by").text(data.created_by);
-            const url = $("#_delete_int_id").attr('href');
-            $("#_delete_int_id").attr('href', `${url}${data.id}`);
-            $("#_update_int_id").attr('href', `${url}${data.id}/edit`);
+            const updateUrl = `${ServerPreifx}/interview/${interviewId}`;
+            const deleteUrl = `${ServerPreifx}/interview/${interviewId}`;
+            $("#_delete_int_id").attr('href', updateUrl);
+            $("#_update_int_id").attr('href', deleteUrl);
             $("#interviewModal").modal('show');
           }
         });
