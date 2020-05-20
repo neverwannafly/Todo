@@ -1,4 +1,4 @@
-const SetUser = async (user) => {
+let SetUser = (user) => {
   const userId = user.id;
   const name = user.name;
   const email = user.email;

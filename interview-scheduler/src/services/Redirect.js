@@ -1,4 +1,4 @@
-const Redirect = async (path) => {
+const Redirect = (path) => {
   location.hash = `#${path}`;
 }
 

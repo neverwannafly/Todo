@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar.js";
 import CreateInterview from "../components/CreateInterview.js";
 import { ServerPreifx } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
+import ViewInterview from "../components/ViewInterview.js";
 
 
 let Index = {
@@ -10,6 +11,7 @@ let Index = {
     let view = `
       <div id="navbar-root"></div>
       <div id="create-interview-root"></div>
+      <div id="view-interview-root"></div>
       <div class="calendar-wrapper">
         <div id="calendar-root">
         </div>
@@ -21,6 +23,7 @@ let Index = {
     const navbar = document.getElementById('navbar-root');
     const calendarEl = document.getElementById('calendar-root');
     const createInterview = document.getElementById('create-interview-root');
+    const viewInterview = document.getElementById('view-interview-root');
 
     const calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: ['timeGrid'],
@@ -34,7 +37,7 @@ let Index = {
       eventClick: function(info) {
         const interviewId = info.event.id;
         $.ajax({
-          url: `/api/interviews/get/${interviewId}`,
+          url: `${ServerPreifx}/api/interviews/get/${interviewId}`,
           type: 'GET',
           success: function(data) {
             console.log(data.agenda);
@@ -59,6 +62,9 @@ let Index = {
 
     createInterview.innerHTML = await CreateInterview.render();
     await CreateInterview.postRender();
+
+    viewInterview.innerHTML = await ViewInterview.render();
+    await ViewInterview.postRender();
   }
 }
 

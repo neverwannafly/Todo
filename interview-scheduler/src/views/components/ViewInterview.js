@@ -1,7 +1,7 @@
 let ViewInterview = {
   name: "ViewInterview",
   render: async () => {
-    let view = `
+    let view = /*html*/`
       <div class="modal fade" id="interviewModal" tabindex="-1" role="dialog" aria-labelledby="interviewModalLabel" aria-modal="true"">
         <div class="modal-dialog" role="document">
           <div class="modal-content">

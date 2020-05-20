@@ -41,16 +41,16 @@ let Signin = {
         url: url,
         data: data,
         type: 'POST',
-        success: (data) => {
+        success: async (data) => {
           if (data.success) {
-            SetUser(data.user);
-            Redirect('/');
+            await SetUser(data.user);
+            await Redirect('/');
           }
           else {
-            console.log("Error");
+            console.log(data.error);
           }
         }
-      })
+      });
     });
   }
 }

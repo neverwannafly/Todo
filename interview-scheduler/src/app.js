@@ -5,7 +5,6 @@ import Error404 from "./views/pages/Error404.js";
 
 const renderPage = async () => {
   let view = router.match();
-  console.log(view);
   const root = document.getElementById('root');
   if (view != null) {
     root.innerHTML = await view.render();
