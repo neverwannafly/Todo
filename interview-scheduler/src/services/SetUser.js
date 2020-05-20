@@ -1,5 +1,5 @@
 const SetUser = async (user) => {
-  const userId = user.id,
+  const userId = user.id;
   const name = user.name;
   const email = user.email;
   const token = user.token;

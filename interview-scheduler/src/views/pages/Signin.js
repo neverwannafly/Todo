@@ -1,10 +1,14 @@
+import { ServerPreifx } from "../../services/Config.js";
+import SetUser from "../../services/SetUser.js";
+import Redirect from "../../services/Redirect.js";
+
 let Signin = {
   name: "Signin",
   render: async () => {
     let view = /*html*/`
       <div class="container form-wrapper">
     
-        <form action="/login" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="Ybj8ncVwDtkFZrEw+WPHzSj5mKimxmdGEgTR525YSGgglePz75pIZN9VTs7YnCAs7aswKHY2X6BtdYD1QuPulg==">
+        <form action="#" accept-charset="UTF-8" method="post">
           <div class="form-group">
             <label for="email">Email</label>
             <input class="form-control" type="text" name="email" id="email">
@@ -28,7 +32,26 @@ let Signin = {
     return view;
   },
   postRender: async () => {
-
+    const form = document.getElementsByTagName('form')[0];
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const url = `${ServerPreifx}/login`;
+      const data = $("form input").serialize();
+      $.ajax({
+        url: url,
+        data: data,
+        type: 'POST',
+        success: (data) => {
+          if (data.success) {
+            SetUser(data.user);
+            Redirect('/');
+          }
+          else {
+            console.log("Error");
+          }
+        }
+      })
+    });
   }
 }
 
