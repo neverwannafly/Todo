@@ -64,6 +64,8 @@ let ViewInterview = {
     return view;
   },
   postRender: async() => {
+    const updateButton = document.getElementById('_update_int_id');
+    const deleteButton = document.getElementById('_delete_int_id');
 
   }
 }

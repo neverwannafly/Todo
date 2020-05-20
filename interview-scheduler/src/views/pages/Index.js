@@ -53,10 +53,10 @@ let Index = {
             $("#_end").text(data.end);
             $("#_comments").text(data.comments);
             $("#_created_by").text(data.created_by);
-            const updateUrl = `${ServerPreifx}/interview/${interviewId}`;
+            const updateUrl = `/#/edit/${data.id}`;
             const deleteUrl = `${ServerPreifx}/interview/${interviewId}`;
-            $("#_delete_int_id").attr('href', updateUrl);
-            $("#_update_int_id").attr('href', deleteUrl);
+            $("#_delete_int_id").attr('href', deleteUrl);
+            $("#_update_int_id").attr('href', updateUrl);
             $("#interviewModal").modal('show');
           }
         });
