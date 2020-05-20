@@ -1,0 +1,1 @@
+export const ServerPreifx = 'http://localhost:3000';
