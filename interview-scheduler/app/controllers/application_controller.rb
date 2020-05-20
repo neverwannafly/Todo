@@ -2,6 +2,7 @@ class ApplicationController < ActionController::Base
   skip_before_action :verify_authenticity_token
   helper_method :generate_token
   helper_method :current_user
+  helper_method :can_upload
   helper_method :can_edit
   helper_method :can_view
   helper_method :can_delete
@@ -19,6 +20,14 @@ private
       @_current_user ||= User.find_by(:id => params[:user_id], :token => params[:token])
     end
     return @_current_user
+  end
+  
+  def can_upload
+    if current_user && current_user.id == params[:owner_id]
+      return true
+    else
+      return false
+    end
   end
 
   def can_edit
