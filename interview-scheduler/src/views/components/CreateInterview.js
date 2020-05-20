@@ -1,3 +1,5 @@
+import { ServerPreifx } from "../../services/Config.js";
+
 let CreateInterview = {
   render: async () => {
     let view = /*html*/`
@@ -74,7 +76,7 @@ let CreateInterview = {
       load: function(query, callback) {
         if (!query.length) return callback();
         $.ajax({
-          url: '/api/users/fetch',
+          url: `${ServerPreifx}/api/users/fetch`,
           type: 'GET',
           data: {
             query: query,
