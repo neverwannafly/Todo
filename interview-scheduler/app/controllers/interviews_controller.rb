@@ -94,21 +94,26 @@ class InterviewsController < ApplicationController
               InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_later(wait_until: send_time)
             end
           end
-          respond_to do |format|
-            format.html { redirect_to interviews_url, notice: "Interview successfully scheduled!"}
-          end
+          render json: {
+            :success => true,
+          }
         else
-          respond_to do |format|
-            format.html { redirect_to interviews_url, notice: "Interview creation failed!" }
-          end
+          render json: {
+            :success => false,
+            :error => "Cannot create interview.",
+          }
         end
       else
-        respond_to do |format|
-          format.html { redirect_to interviews_url, notice: "Some users have conflicting schedules!" }
-        end
+        render json: {
+          :success => false,
+          :error => "Some members have conflicting schedules.",
+        }
       end
     else
-      redirect_to interviews_url, notice: "Not sufficient permission to delete!"
+      render json: {
+        :success => false,
+        :error => "Not sufficient permission to create!",
+      }
     end
   end
 

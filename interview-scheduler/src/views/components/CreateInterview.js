@@ -1,4 +1,5 @@
 import { ServerPreifx } from "../../services/Config.js";
+import GetUser from "../../services/GetUser.js";
 
 let CreateInterview = {
   render: async () => {
@@ -13,7 +14,7 @@ let CreateInterview = {
               </button>
             </div>
             <div class="modal-body">
-              <form id="create_interview" action="/interviews" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="gxrs4xxS7ZNLzhsEqofLIkT8BoVuZ0tRfSzTCrKxNaF0oEw3UL+jGh7zMZqJEvNPlB9y4P16xzs1FKpEps61yA==">
+              <form id="create_interview" action="#" accept-charset="UTF-8" method="post">
       
                 <div class="form-group">
                   <label for="interview_title">Title</label>
@@ -58,6 +59,32 @@ let CreateInterview = {
     return view;
   },
   postRender: async () => {
+    const createInterview = document.getElementById('create_interview');
+    createInterview.addEventListener('submit', event => {
+      event.preventDefault();
+      const url = `${ServerPreifx}/interviews`;
+      const userData = GetUser();
+      $.ajax({
+        url: url,
+        data: {
+          user_id: userData.userId,
+          token: userData.token,
+          interview: {
+            title: $("#interview_title").val(),
+            agenda: $("#interview_agenda").val(),
+            members: $("#find-users").val(),
+            start: $("#dtp_beg").val(),
+            end: $("#dtp_end").val(),
+            comments: $("#comments").val(),
+          },
+        },
+        type: "POST",
+        success: data => {
+          console.log(data);
+        }
+      });
+    })
+
     const $findUsers = document.getElementById('find-users');
     $($findUsers).selectize({
       options: [],
