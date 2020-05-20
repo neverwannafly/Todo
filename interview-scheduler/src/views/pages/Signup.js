@@ -1,6 +1,7 @@
 let Signup = {
+  name: "signup",
   render: async () => {
-    let view = `
+    let view = /*html*/`
       <div class="container form-wrapper">
         <form action="/signup" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="kGUFz1hensP+/8cEEuU9jR6cYDnUw+NzR5b8oHFbh39n36UbFLPQSqvC7ZoxcAXgzn8UXEfebxkProXuZSQHFg==">
           <div class="form-group">
@@ -48,8 +49,9 @@ let Signup = {
         </form>
       </div>
     `;
+    return view;
   },
-  after_render: async () => {
+  postRender: async () => {
 
   }
 };

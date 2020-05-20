@@ -1,7 +1,13 @@
+import Navbar from "../components/Navbar.js";
+import Modals from "../components/Modals.js";
+
+
 let Index = {
+  name: "Index",
   render : async () => {
-    
     let view = `
+      <div id="navbar"></div>
+      <div id="modals"></div>
       <div class="calendar-wrapper">
         <div id="calendar">
         </div>
@@ -9,8 +15,11 @@ let Index = {
     `;
     return view;
   },
-  after_render: async () => {
+  postRender: async () => {
+    const navbar = document.getElementById('navbar');
     const calendarEl = document.getElementById('calendar');
+    const modals = document.getElementById('modals');
+
     const calendar = new FullCalendar.Calendar(calendarEl, {
       plugins: ['timeGrid'],
       events: {
@@ -38,6 +47,12 @@ let Index = {
       }
     });
     calendar.render();
+
+    navbar.innerHTML = await Navbar.render();
+    await Navbar.postRender();
+
+    modals.innerHTML = await Modals.render();
+    await Modals.postRender();
   }
 }
 

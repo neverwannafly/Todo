@@ -1,6 +1,7 @@
 let Signin = {
+  name: "Signin",
   render: async () => {
-    let view = `
+    let view = /*html*/`
       <div class="container form-wrapper">
     
         <form action="/login" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="Ybj8ncVwDtkFZrEw+WPHzSj5mKimxmdGEgTR525YSGgglePz75pIZN9VTs7YnCAs7aswKHY2X6BtdYD1QuPulg==">
@@ -19,13 +20,14 @@ let Signin = {
           </div>
       
           <div class="link-switch">
-            <a class="btn btn-outline-dark btn-block" href="/signup">New User? Create an account to continue!</a>
+            <a class="btn btn-outline-dark btn-block" href="/#/signup">New User? Create an account to continue!</a>
           </div>
         </form>
       </div>
     `;
+    return view;
   },
-  after_render: async () => {
+  postRender: async () => {
 
   }
 }
