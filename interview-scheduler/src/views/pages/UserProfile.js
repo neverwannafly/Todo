@@ -3,6 +3,7 @@ import CreateInterview from "../components/CreateInterview.js";
 import { ServerPreifx } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
 import Redirect from "../../services/Redirect.js";
+import ExtractId from "../../services/ExtractId.js";
 
 let UserProfile = {
   name: "UserProfile",
@@ -32,9 +33,9 @@ let UserProfile = {
   },
   postRender: async () => {
     const resume = document.getElementById('resume-root');
-    const path =  location.href;
-    const index = path.search('/user/') + 6;
-    const ownerId = path.substring(index);
+    // owner ID is the last part of url
+    // offset = 1 means last part, 2 means 2nd last and so on.
+    const ownerId = ExtractId(1);
     const userData = GetUser();
     const url = `${ServerPreifx}/user/${ownerId}`;
 
