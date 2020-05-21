@@ -18,7 +18,7 @@ let Navbar = {
             Create Interview
           </a>
           <a class="nav-item nav-link" href="/#/user/${userData.userId}">My Profile</a>
-          <a class="nav-item nav-link" href="/#/interviews/${userData.userId}">My Interviews</a>
+          <a class="nav-item nav-link" href="/#/${userData.userId}">My Interviews</a>
           <a class="nav-item nav-link" href="/#/landing" id="user-logout">Logout</a>
         </div>
       </div>
