@@ -1,38 +1,78 @@
 class UsersController < ApplicationController
-  def new
-    @user = User.new
-  end
 
   def create
     @user = User.new user_params
+    @user.token = generate_token
     @user.role = Role.find(params[:user][:role_id])
     if @user.role && @user.role.authenticate(params[:user][:role_token])
       if @user.save
-        respond_to do |format|
-          session[:user_id] = @user.id
-          format.html { redirect_to interviews_url, notice: "Welcome #{@user.username}" }
-        end
+        render json: {
+          :success => true,
+          :user => {
+            :id => @user.id,
+            :name => @user.name,
+            :email => @user.email,
+            :token => @user.token,
+            :username => @user.username,
+          }
+        }
       else
-        respond_to do |format|
-          format.html { redirect_to signup_url, notice: "Signup Failed!" }
-        end
+        render json: {
+          :success => false,
+          :error => @user.errors.full_messages,
+        }
       end
     else
-      respond_to do |format|
-        format.html { redirect_to signup_url, notice: "Invalid Access Token or Role ID!" }
-      end
+      render json: {
+        :success => false,
+        :error => "Invalid access token or Role ID",
+      }
     end
   end
 
   def profile
-    @user = User.find(params[:id])
+    if can_view
+      user = User.find(params[:resume_owner])
+      if user
+        if user.resume.attached?
+          render json: {
+            success: true,
+            resume: url_for(user.resume),
+          }
+        else
+          render json: {
+            success: false,
+            error: "No attachement found",
+          }
+        end
+      else
+        render json: {
+          :success => false,
+          :error => "User doesnt exists",
+        }
+      end
+    else
+      render json: {
+        :success => false,
+        :error => "Insufficient permissions to view post."
+      }
+    end
   end
 
   def upload
-    @user = User.find(params[:id])
-    @user.resume.attach(params[:user][:resume])
-    @user.save
-    redirect_to upload_path, notice: "Resume uploaded Successfully!"
+    if can_upload
+      @user = User.find(params[:owner_id])
+      @user.resume.attach(params[:resume])
+      @user.save
+      render json: {
+        success: true,
+      }
+    else
+      render json: {
+        success: false,
+        error: "Not owner of this account",
+      }
+    end
   end
 
   def fetch

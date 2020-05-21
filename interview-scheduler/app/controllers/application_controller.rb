@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
-  protect_from_forgery with: :exception 
+  skip_before_action :verify_authenticity_token
+  helper_method :generate_token
   helper_method :current_user
+  helper_method :can_upload
   helper_method :can_edit
   helper_method :can_view
   helper_method :can_delete
@@ -13,17 +15,19 @@ private
     return rand(36**length).to_s(36)
   end
 
-  def validate_token(token)
-    return current_user.token == token
-  end
-
   def current_user 
-    if session[:user_id] 
-      @_current_user ||= User.find_by(id: session[:user_id]) 
-    else
-      @_current_user = nil
+    if params[:user_id] && params[:token]
+      @_current_user ||= User.find_by(:id => params[:user_id], :token => params[:token])
     end
     return @_current_user
+  end
+  
+  def can_upload
+    if current_user && current_user.id == params[:owner_id]
+      return true
+    else
+      return false
+    end
   end
 
   def can_edit

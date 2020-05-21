@@ -1,19 +1,27 @@
 class SessionsController < ApplicationController
-  def new
-    @user = User.new
-  end
   
   def create
     @user = User.find_by(email: params[:email])
     if @user && @user.authenticate(params[:password])
-      respond_to do |format|
-        session[:user_id] = @user.id
-        format.html { redirect_to interviews_url, notice: "Welcome #{@user.username}" }
+      if @user.token == nil
+        @user.token = generate_token
+        @user.save
       end
+      render json: {
+        :success => true,
+        :user => {
+          :id => @user.id,
+          :name => @user.name,
+          :email => @user.email,
+          :token => @user.token,
+          :username => @user.username,
+        }
+      }
     else
-      respond_to do |format|
-        format.html { redirect_to login_url, notice: "Password or Email isnt right!" }
-      end
+      render json: {
+        :success => false,
+        :error => "Invalid username or password",
+      }
     end
   end
 

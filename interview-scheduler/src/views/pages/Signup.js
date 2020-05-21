@@ -1,9 +1,14 @@
+import { ServerPreifx } from "../../services/Config.js";
+import SetUser from "../../services/SetUser.js";
+import Redirect from "../../services/Redirect.js";
+import GetUser from "../../services/GetUser.js";
+
 let Signup = {
   name: "signup",
   render: async () => {
     let view = /*html*/`
       <div class="container form-wrapper">
-        <form action="/signup" accept-charset="UTF-8" method="post"><input type="hidden" name="authenticity_token" value="kGUFz1hensP+/8cEEuU9jR6cYDnUw+NzR5b8oHFbh39n36UbFLPQSqvC7ZoxcAXgzn8UXEfebxkProXuZSQHFg==">
+        <form action="#" accept-charset="UTF-8" method="post">
           <div class="form-group">
             <label for="user_name">Name</label>
             <input class="form-control" type="text" name="user[name]" id="user_name">
@@ -44,7 +49,7 @@ let Signup = {
           </div>
       
           <div class="link-switch">
-            <a class="btn btn-outline-dark btn-block" href="/login">Already have an account? Click here to login!</a>
+            <a class="btn btn-outline-dark btn-block" href="/#/login">Already have an account? Click here to login!</a>
           </div>
         </form>
       </div>
@@ -52,7 +57,26 @@ let Signup = {
     return view;
   },
   postRender: async () => {
-
+    const form = document.getElementsByTagName('form')[0];
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const url = `${ServerPreifx}/signup`;
+      const data = $("form input").serialize();
+      $.ajax({
+        url: url,
+        data: data,
+        type: 'POST',
+        success: async (data) => {
+          if (data.success) {
+            SetUser(data.user);
+            Redirect('/');
+          }
+          else {
+            console.log(data.error);
+          }
+        }
+      })
+    });
   }
 };
 
