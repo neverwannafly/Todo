@@ -48,7 +48,11 @@ let UserProfile = {
       type: 'GET',
       success: (data) => {
         if (data.success) {
-          resume.innerHTML = /*html*/`<iframe class="image" src="${data.resume}" frameborder="0"></iframe>`;
+          resume.innerHTML = /*html*/`
+            <div class="center">
+              <iframe class="frame" src="${data.resume}" frameborder="0"></iframe>
+            </div>
+          `;
         } else {
           resume.innerHTML = /*html*/`Resume not found`;
         }
