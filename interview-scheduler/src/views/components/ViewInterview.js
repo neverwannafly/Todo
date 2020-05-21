@@ -1,4 +1,5 @@
 import GetUser from "../../services/GetUser.js";
+import Redirect from "../../services/Redirect.js";
 
 let ViewInterview = {
   name: "ViewInterview",
@@ -59,7 +60,7 @@ let ViewInterview = {
             </div>
             <div class="modal-footer">
               <a id="_update_int_id" class="btn btn-outline-info" href="#">Edit</a>
-              <a id="_delete_int_id" class="btn btn-outline-danger" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="#">Delete</a>
+              <a id="_delete_int_id" class="btn btn-outline-danger" href="#">Delete</a>
               <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
@@ -76,7 +77,21 @@ let ViewInterview = {
       $('.modal').modal('hide');
     });
 
-    deleteButton.addEventListener('click', () => {
+    deleteButton.addEventListener('click', event => {
+      event.preventDefault();
+      const url = deleteButton.getAttribute('href');
+      const userData = GetUser();
+      $.ajax({
+        url: url,
+        method: 'DELETE',
+        data: {
+          user_id: userData.userId,
+          token: userData.token,
+          success: data => {
+            console.log(data);
+          }
+        }
+      })
       $('.modal').modal('hide');
     })
 
