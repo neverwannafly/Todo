@@ -43,6 +43,7 @@ class InterviewsController < ApplicationController
       render json: {
         :success => false
       }
+    end
   end
 
   def update
@@ -57,13 +58,12 @@ class InterviewsController < ApplicationController
             InterviewMailer.with(:interview=>@interview, :user_id=>member).updation_mails.deliver_later(wait_until: now)
             InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_later(wait_until: send_time)
           end
-          render :json {
+          render json: {
             :success => true,
           }
-          redirect_to interviews_url, notice: "Successfully updated!"
         end
       else
-        render :json {
+        render json: {
           :success => false,
           :error => "Some users have conflicting schedules",
         }
