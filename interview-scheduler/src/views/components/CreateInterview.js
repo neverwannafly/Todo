@@ -1,7 +1,8 @@
-import { ServerPreifx } from "../../services/Config.js";
+import { ServerPreifx, YELLOW_NOTICE, RED_NOTICE } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
 import Redirect from "../../services/Redirect.js";
 import Autocomplete from "../../services/Autocomplete.js";
+import IssueNotice from "../../services/IssueNotice.js";
 
 let CreateInterview = {
   render: async () => {
@@ -78,14 +79,18 @@ let CreateInterview = {
             members: $("#find-users").val(),
             start: $("#dtp_beg").val(),
             end: $("#dtp_end").val(),
-            comments: $("#comments").val(),
+            comments: $("#interview_comments").val(),
           },
         },
         type: "POST",
         success: async data => {
-          console.log(data);
           $(modal).modal('hide');
           await Redirect('/');
+          if (data.success) {
+            await IssueNotice('Interview added', YELLOW_NOTICE);
+          } else {
+            await IssueNotice(data.error, RED_NOTICE);
+          }
         }
       });
     })
