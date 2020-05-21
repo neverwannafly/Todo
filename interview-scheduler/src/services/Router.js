@@ -27,7 +27,7 @@ class Router {
       pattern: /^\/\d+\/?$/i,
       view: UserInterview,
     }, {
-      pattern: /^\/d+\/edit\/?$/i,
+      pattern: /^\/\d+\/edit\/?$/i,
       view: EditInterview,
     }];
   }

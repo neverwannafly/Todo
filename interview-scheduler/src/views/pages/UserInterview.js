@@ -1,12 +1,14 @@
 import { ServerPreifx } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
 import Navbar from "../components/Navbar.js";
+import CreateInterview from "../components/CreateInterview.js";
 
 let UserInterview = {
   name: "UserInterview",
   render: async () => {
     let view = /*html*/`
       <div id="navbar-root"></div>
+      <div id="create-interview-root"></div>
       <div class="wrapper">
         <div class="table-responsive">
           <table class="table table-hover">
@@ -32,6 +34,7 @@ let UserInterview = {
   postRender: async () => {
     const interviews = document.getElementById('table-content-root');
     const navbar = document.getElementById('navbar-root');
+    const createInterview = document.getElementById('create-interview-root');
     const userData = GetUser();
     const url = `${ServerPreifx}/interviews/${userData.userId}`;
     $.ajax({
@@ -62,6 +65,9 @@ let UserInterview = {
 
     navbar.innerHTML = await Navbar.render();
     await Navbar.postRender();
+
+    createInterview.innerHTML = await CreateInterview.render();
+    await CreateInterview.postRender();
   }
 };
 

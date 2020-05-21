@@ -53,7 +53,7 @@ let Index = {
             $("#_end").text(data.end);
             $("#_comments").text(data.comments);
             $("#_created_by").text(data.created_by);
-            const updateUrl = `/#/edit/${data.id}`;
+            const updateUrl = `/#/${data.id}/edit`;
             const deleteUrl = `${ServerPreifx}/interview/${interviewId}`;
             $("#_delete_int_id").attr('href', deleteUrl);
             $("#_update_int_id").attr('href', updateUrl);

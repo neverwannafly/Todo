@@ -3,7 +3,6 @@ import GetUser from "../../services/GetUser.js";
 let ViewInterview = {
   name: "ViewInterview",
   render: async () => {
-    const userData = GetUser();
     let view = /*html*/`
       <div class="modal fade" id="interviewModal" tabindex="-1" role="dialog" aria-labelledby="interviewModalLabel" aria-modal="true">
         <div class="modal-dialog" role="document">
@@ -72,6 +71,14 @@ let ViewInterview = {
   postRender: async() => {
     const updateButton = document.getElementById('_update_int_id');
     const deleteButton = document.getElementById('_delete_int_id');
+
+    updateButton.addEventListener('click', () => {
+      $('.modal').modal('hide');
+    });
+
+    deleteButton.addEventListener('click', () => {
+      $('.modal').modal('hide');
+    })
 
   }
 }
