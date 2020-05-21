@@ -81,18 +81,21 @@ let ViewInterview = {
       event.preventDefault();
       const url = deleteButton.getAttribute('href');
       const userData = GetUser();
-      $.ajax({
-        url: url,
-        method: 'DELETE',
-        data: {
-          user_id: userData.userId,
-          token: userData.token,
-          success: data => {
-            console.log(data);
+      const confirm = window.confirm("Are you sure? This change is irreversible!");
+      if (confirm) {
+        $.ajax({
+          url: url,
+          method: 'DELETE',
+          data: {
+            user_id: userData.userId,
+            token: userData.token,
+            success: data => {
+              console.log(data);
+            }
           }
-        }
-      })
-      $('.modal').modal('hide');
+        });
+        $('.modal').modal('hide');
+      }
     })
 
   }
