@@ -69,7 +69,7 @@ let Signup = {
         success: async (data) => {
           if (data.success) {
             SetUser(data.user);
-            Redirect('/');
+            await Redirect('/');
           }
           else {
             console.log(data.error);
