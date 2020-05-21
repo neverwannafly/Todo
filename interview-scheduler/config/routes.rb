@@ -14,7 +14,7 @@ Rails.application.routes.draw do
   get   '/interviews/:id',      controller:'interviews', action:'user_interviews', as: :user_interviews
   delete'/interviews/:id',      controller:'interviews', action:'delete'
   get   '/interviews/:id/edit', controller:'interviews', action:'edit'
-  put   '/interviews/:id',      controller:'interviews', action:'update'
+  patch '/interviews/:id',      controller:'interviews', action:'update'
 
   # API's
   get   '/api/interviews/fetch',  controller:'interviews',  action: 'fetch'

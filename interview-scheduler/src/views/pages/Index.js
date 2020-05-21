@@ -54,7 +54,7 @@ let Index = {
             $("#_comments").text(data.comments);
             $("#_created_by").text(data.created_by);
             const updateUrl = `/#/${data.id}/edit`;
-            const deleteUrl = `${ServerPreifx}/interview/${interviewId}`;
+            const deleteUrl = `${ServerPreifx}/interviews/${interviewId}`;
             $("#_delete_int_id").attr('href', deleteUrl);
             $("#_update_int_id").attr('href', updateUrl);
             $("#interviewModal").modal('show');
