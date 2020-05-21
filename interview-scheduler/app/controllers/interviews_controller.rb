@@ -19,6 +19,7 @@ class InterviewsController < ApplicationController
       members = User.where(:id => UserInterview.where(:interview_id => interview.id).pluck(:user_id)).pluck(:username ).join ","
       render json: {
         :id => interview.id,
+        :title => interview.title,
         :agenda => interview.agenda,
         :members => members,
         :start => interview.start.to_formatted_s(:short),
@@ -35,9 +36,21 @@ class InterviewsController < ApplicationController
   def user_interviews
     if can_view
       @interviews = Interview.where(:id => UserInterview.where(:user_id => current_user).pluck(:interview_id))
+      interviews = []
+      @interviews.each do |interview|
+        interviews.append({
+          :id => interview.id,
+          :title => interview.title,
+          :agenda => interview.agenda,
+          :start => interview.start.to_formatted_s(:short),
+          :end => interview.end.to_formatted_s(:short),
+          :comments => interview.comments,
+          :created_by => interview.user.username,
+        })
+      end
       render json: {
-        :success => false,
-        :interviews => @interview,
+        :success => true,
+        :interviews => interviews,
       }
     else
       render json: {
