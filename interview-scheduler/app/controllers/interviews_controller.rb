@@ -35,9 +35,14 @@ class InterviewsController < ApplicationController
   def user_interviews
     if can_view
       @interviews = Interview.where(:id => UserInterview.where(:user_id => current_user).pluck(:interview_id))
+      render json: {
+        :success => false,
+        :interviews => @interview,
+      }
     else
-      redirect_to signup_url
-    end
+      render json: {
+        :success => false
+      }
   end
 
   def update
@@ -52,11 +57,22 @@ class InterviewsController < ApplicationController
             InterviewMailer.with(:interview=>@interview, :user_id=>member).updation_mails.deliver_later(wait_until: now)
             InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_later(wait_until: send_time)
           end
+          render :json {
+            :success => true,
+          }
           redirect_to interviews_url, notice: "Successfully updated!"
         end
+      else
+        render :json {
+          :success => false,
+          :error => "Some users have conflicting schedules",
+        }
       end
     else
-      redirect_to interviews_url, notice: "Not sufficient permission to update!"
+      render json: {
+        :success => false,
+        :error => "Not sufficient permission to update!",
+      }
     end
   end
 
@@ -64,17 +80,30 @@ class InterviewsController < ApplicationController
     if can_edit
       @interview = Interview.find(params[:id])
       @members = User.where(:id => UserInterview.where(:interview_id => @interview.id).pluck(:user_id)).pluck(:username ).join ","
+      render json: {
+        :success => true,
+        :interview => @interview,
+        :members => @members,
+      }
     else
-      redirect_to interviews_url, notice: "Not sufficient permission to update!"
+      render json: {
+        :success => false,
+        :error => "Not sufficient permission to update!",
+      }
     end
   end
 
   def delete
     if can_delete
       Interview.delete(params[:id])
-      redirect_to interviews_url, notice: "Successfully deleted!"
+      render json: {
+        :success => true,
+      }
     else
-      redirect_to interviews_url, notice: "Not sufficient permission to delete!"
+      render json: {
+        :success => false,
+        :error => "Not sufficient permission to delete!",
+      }
     end
   end
 
