@@ -1,6 +1,7 @@
 import { ServerPreifx } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
 import Redirect from "../../services/Redirect.js";
+import Autocomplete from "../../services/Autocomplete.js";
 
 let CreateInterview = {
   render: async () => {
@@ -88,39 +89,8 @@ let CreateInterview = {
         }
       });
     })
-
-    const $findUsers = document.getElementById('find-users');
-    $($findUsers).selectize({
-      options: [],
-      create: false,
-      persist: false,
-      maxItems: null,
-      delimiter: ',',
-      valueField: 'id',
-      labelField: 'username',
-      searchField: ['username'],
-      render: {
-        option: function (item, escape) {
-          return '<div>' + escape(item.username) + '</div>';
-        }
-      },
-      load: function(query, callback) {
-        if (!query.length) return callback();
-        $.ajax({
-          url: `${ServerPreifx}/api/users/fetch`,
-          type: 'GET',
-          data: {
-            query: query,
-          },
-          error: function() {
-              callback();
-          },
-          success: function(res) {
-            callback(res);
-          }
-        });
-      }
-    });
+    // makes #find-users an autocomplete field
+    Autocomplete('find-users');
   }
 }
 
