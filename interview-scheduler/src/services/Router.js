@@ -1,6 +1,7 @@
 import Index from "../views/pages/Index.js";
 import Signup from "../views/pages/Signup.js";
 import Signin from "../views/pages/Signin.js";
+import Landing from "../views/pages/Landing.js";
 import UserProfile from "../views/pages/UserProfile.js";
 import UserInterview from "../views/pages/UserInterview.js";
 import EditInterview from "../views/pages/EditInterview.js";
@@ -10,6 +11,9 @@ class Router {
     this.routes = [{
       pattern: /^\/?$/i,
       view: Index
+    }, {
+      pattern: /^\/landing\/?$/i,
+      view: Landing,
     }, {
       pattern: /^\/signup\/?$/i,
       view: Signup
