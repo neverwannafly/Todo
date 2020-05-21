@@ -1,5 +1,6 @@
 import { ServerPreifx } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
+import Redirect from "../../services/Redirect.js";
 
 let CreateInterview = {
   render: async () => {
@@ -60,6 +61,7 @@ let CreateInterview = {
   },
   postRender: async () => {
     const createInterview = document.getElementById('create_interview');
+    const modal = document.getElementById('createModal');
     createInterview.addEventListener('submit', event => {
       event.preventDefault();
       const url = `${ServerPreifx}/interviews`;
@@ -79,8 +81,10 @@ let CreateInterview = {
           },
         },
         type: "POST",
-        success: data => {
+        success: async data => {
           console.log(data);
+          $(modal).modal('hide');
+          await Redirect('/');
         }
       });
     })
