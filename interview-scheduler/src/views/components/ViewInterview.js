@@ -18,6 +18,12 @@ let ViewInterview = {
               <div class="table-responsive">
                 <table class="table table-hover">
                   <tbody>
+
+                  <tr>
+                    <th scope="col">Title</th>
+                    <td id="_title"></td>
+                  </tr>
+
                     <tr>
                       <th scope="col">Agenda</th>
                       <td id="_agenda"></td>
