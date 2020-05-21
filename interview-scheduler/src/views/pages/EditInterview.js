@@ -2,15 +2,19 @@ import Navbar from "../components/Navbar.js";
 import CreateInterview from "../components/CreateInterview.js";
 import Autocomplete from "../../services/Autocomplete.js";
 import ExtractId from "../../services/ExtractId.js";
-import { ServerPreifx } from "../../services/Config.js";
+import { ServerPreifx, RED_NOTICE, YELLOW_NOTICE } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
 import Redirect from "../../services/Redirect.js";
+import IssueNotice from "../../services/IssueNotice.js";
 
 let EditInterview = {
   name: "EditInterview",
   render: async () => {
     let view = /*html*/`
     <div id="navbar-root"></div>
+    <div class="wrapper">
+      <div id="notice-root"></div>
+    </div>
     <div id="create-interview-root"></div>
       <div class="container">
         <div class="wrapper">
@@ -105,8 +109,12 @@ let EditInterview = {
         },
         type: "PATCH",
         success: async data => {
-          console.log(data);
-          await Redirect('/');
+          if (data.success) {
+            await Redirect('/');
+            await IssueNotice('Interview Edited!', YELLOW_NOTICE);
+          } else {
+            await IssueNotice(data.error, RED_NOTICE);
+          }
         }
       });
     });

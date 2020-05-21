@@ -1,5 +1,7 @@
 import GetUser from "../../services/GetUser.js";
 import Redirect from "../../services/Redirect.js";
+import IssueNotice from "../../services/IssueNotice.js";
+import { YELLOW_NOTICE, RED_NOTICE } from "../../services/Config.js";
 
 let ViewInterview = {
   name: "ViewInterview",
@@ -89,8 +91,13 @@ let ViewInterview = {
           data: {
             user_id: userData.userId,
             token: userData.token,
-            success: data => {
-              console.log(data);
+            success: async data => {
+              if (data.success) {
+                await Redirect('/');
+                await IssueNotice('Successfully deleted interview!', YELLOW_NOTICE);
+              } else {
+                await IssueNotice("Something went wrong! Please try again later!", RED_NOTICE);
+              }
             }
           }
         });

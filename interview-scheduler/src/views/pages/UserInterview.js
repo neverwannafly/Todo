@@ -10,6 +10,9 @@ let UserInterview = {
       <div id="navbar-root"></div>
       <div id="create-interview-root"></div>
       <div class="wrapper">
+        <div id="notice-root"></div>
+      </div>
+      <div class="wrapper">
         <div class="table-responsive">
           <table class="table table-hover">
             <thead class="thead-dark">

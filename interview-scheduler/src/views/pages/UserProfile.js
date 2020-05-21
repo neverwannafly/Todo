@@ -1,15 +1,19 @@
 import Navbar from "../components/Navbar.js";
 import CreateInterview from "../components/CreateInterview.js";
-import { ServerPreifx } from "../../services/Config.js";
+import { ServerPreifx, RED_NOTICE, GREEN_NOTICE } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
 import Redirect from "../../services/Redirect.js";
 import ExtractId from "../../services/ExtractId.js";
+import IssueNotice from "../../services/IssueNotice.js";
 
 let UserProfile = {
   name: "UserProfile",
   render: async () => {
     let view = /*html*/`
     <div id="navbar-root"></div>
+    <div class="wrapper">
+      <div id="notice-root"></div>
+    </div>
     <div id="create-interview-root"></div>
     <div class="container">
       <div class="center">
@@ -21,7 +25,6 @@ let UserProfile = {
             <label for="user_resume"><h3>Resume</h3></label>
             <input class="form-control-file" type="file" name="interview[resume]" id="user_resume">
           </div>
-              
           <div class="actions form-group form-inline">
             <input type="submit" name="commit" value="Upload" class="btn btn-primary btn-block">
           </div>
@@ -79,8 +82,9 @@ let UserProfile = {
         success: async (data) => {
           if (data.success) {
             await Redirect(location.hash.slice(1));
+            await IssueNotice("Resume successfully uploaded", GREEN_NOTICE);
           } else {
-            console.log(data.error);
+            await IssueNotice(data.error, RED_NOTICE);
           }
         },
       });

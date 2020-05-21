@@ -1,11 +1,16 @@
-import { ServerPreifx } from "../../services/Config.js";
+import { ServerPreifx, RED_NOTICE, BLUE_NOTICE } from "../../services/Config.js";
 import SetUser from "../../services/SetUser.js";
 import Redirect from "../../services/Redirect.js";
+import IssueNotice from "../../services/IssueNotice.js";
+import GetUser from "../../services/GetUser.js";
 
 let Signin = {
   name: "Signin",
   render: async () => {
     let view = /*html*/`
+      <div class="wrapper">
+        <div id="notice-root"></div>
+      </div>
       <div class="container form-wrapper">
     
         <form action="#" accept-charset="UTF-8" method="post">
@@ -45,9 +50,10 @@ let Signin = {
           if (data.success) {
             SetUser(data.user);
             await Redirect('/');
+            await IssueNotice(`Welcome back ${GetUser().username}!`, BLUE_NOTICE);
           }
           else {
-            console.log(data.error);
+            await IssueNotice(data.error, RED_NOTICE);
           }
         }
       });

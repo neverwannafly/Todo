@@ -8,8 +8,11 @@ import ViewInterview from "../components/ViewInterview.js";
 let Index = {
   name: "Index",
   render : async () => {
-    let view = `
+    let view = `      
       <div id="navbar-root"></div>
+      <div class="wrapper">
+        <div id="notice-root"></div>
+      </div>
       <div id="create-interview-root"></div>
       <div id="view-interview-root"></div>
       <div class="calendar-wrapper">
