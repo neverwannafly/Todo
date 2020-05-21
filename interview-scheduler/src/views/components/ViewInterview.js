@@ -19,10 +19,10 @@ let ViewInterview = {
                 <table class="table table-hover">
                   <tbody>
 
-                  <tr>
-                    <th scope="col">Title</th>
-                    <td id="_title"></td>
-                  </tr>
+                    <tr>
+                      <th scope="col">Title</th>
+                      <td id="_title"></td>
+                    </tr>
 
                     <tr>
                       <th scope="col">Agenda</th>
