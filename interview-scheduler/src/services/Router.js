@@ -30,9 +30,11 @@ class Router {
   getUrl() {
     return location.hash.slice(1);
   }
-  match() {
+  match(url=null) {
     let view = null;
-    const url = this.getUrl();
+    if (url === null) {
+      url = this.getUrl();
+    }
     for (let route of this.routes) {
       if (route.pattern.test(url)) {
         view = route.view;
