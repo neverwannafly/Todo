@@ -165,8 +165,10 @@ private
     conflicts = false
     start_time = @interview.start + 1.second
     end_time = @interview.end - 1.second
+    curr_id = @interview.id ? @interview.id : -1
     interviews = UserInterview.where(user_id: members)
     interviews.each do |interview|
+      next if interview.interview_id == curr_id
       upper_threshold = Time.now + 1000.years
       lower_threshold = Time.now - 1000.years
       query = Interview.where(:id => interview.interview_id, :start => end_time..upper_threshold).or(Interview.where(:id => interview.interview_id, :end => lower_threshold..start_time))
