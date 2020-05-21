@@ -73,12 +73,11 @@ let UserProfile = {
         contentType: false,
         success: async (data) => {
           if (data.success) {
-            await Redirect('path');
+            await Redirect(location.hash.slice(1));
+          } else {
+            console.log(data.error);
           }
         },
-        error: async (error) => {
-          console.log(erro);
-        }
       });
     });
 
