@@ -2,6 +2,7 @@ import Navbar from "../components/Navbar.js";
 import CreateInterview from "../components/CreateInterview.js";
 import { ServerPreifx } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
+import Redirect from "../../services/Redirect.js";
 
 let UserProfile = {
   name: "UserProfile",
@@ -30,13 +31,15 @@ let UserProfile = {
     return view;
   },
   postRender: async () => {
-    const url =  location.href;
-    const index = url.search('/user/') + 6;
-    const ownerId = url.substring(index);
+    const resume = document.getElementById('resume-root');
+    const path =  location.href;
+    const index = path.search('/user/') + 6;
+    const ownerId = path.substring(index);
     const userData = GetUser();
+    const url = `${ServerPreifx}/user/${ownerId}`;
 
     $.ajax({
-      url: `${ServerPreifx}/user/${ownerId}`,
+      url: url,
       data: {
         user_id: userData.userId,
         token: userData.token,
@@ -45,10 +48,38 @@ let UserProfile = {
       type: 'GET',
       success: (data) => {
         if (data.success) {
-          const resume = document.getElementById('resume-root');
-          resume.innerHTML = /*html*/`<img src="${data.resume}">`;
+          resume.innerHTML = /*html*/`<iframe class="image" src="${data.resume}" frameborder="0"></iframe>`;
+        } else {
+          resume.innerHTML = /*html*/`Resume not found`;
         }
       }
+    });
+
+    const form =  document.getElementById('upload_resume');
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const file = document.getElementById('user_resume').files[0];
+      const userData = GetUser();
+      let formData = new FormData();
+      formData.append('resume',   file)
+      formData.append('owner_id', ownerId)
+      formData.append('user_id',  userData.userId)
+      formData.append('token',    userData.token)
+      $.ajax({
+        url: url,
+        data: formData,
+        type: 'PATCH',
+        processData: false,
+        contentType: false,
+        success: async (data) => {
+          if (data.success) {
+            await Redirect('path');
+          }
+        },
+        error: async (error) => {
+          console.log(erro);
+        }
+      });
     });
 
     const navbar = document.getElementById('navbar-root');
