@@ -22,8 +22,8 @@ class InterviewsController < ApplicationController
         :title => interview.title,
         :agenda => interview.agenda,
         :members => members,
-        :start => interview.start.to_formatted_s(:short),
-        :end => interview.end.to_formatted_s(:short),
+        :start => interview.start,
+        :end => interview.end,
         :comments => interview.comments,
         :created_by => interview.user.username,
       }
