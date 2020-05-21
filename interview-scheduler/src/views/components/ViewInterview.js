@@ -91,17 +91,17 @@ let ViewInterview = {
           data: {
             user_id: userData.userId,
             token: userData.token,
-            success: async data => {
-              if (data.success) {
-                await Redirect('/');
-                await IssueNotice('Successfully deleted interview!', YELLOW_NOTICE);
-              } else {
-                await IssueNotice("Something went wrong! Please try again later!", RED_NOTICE);
-              }
+          },
+          success: async data => {
+            $('.modal').modal('hide');
+            if (data.success) {
+              await Redirect('/');
+              await IssueNotice('Successfully deleted interview!', YELLOW_NOTICE);
+            } else {
+              await IssueNotice("Something went wrong! Please try again later!", RED_NOTICE);
             }
           }
         });
-        $('.modal').modal('hide');
       }
     })
 
