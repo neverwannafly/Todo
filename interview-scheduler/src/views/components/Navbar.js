@@ -1,4 +1,5 @@
 import GetUser from "../../services/GetUser.js";
+import { ServerPreifx } from "../../services/Config.js";
 
 let Navbar = {
   render: async () => {
@@ -17,8 +18,8 @@ let Navbar = {
             Create Interview
           </a>
           <a class="nav-item nav-link" href="/#/user/${userData.userId}">My Profile</a>
-          <a class="nav-item nav-link" href="/#/interviews/${userData.userId}">My Interviews</a>
-          <a class="nav-item nav-link" href="/#/logout">Logout</a>
+          <a class="nav-item nav-link" href="/#/${userData.userId}">My Interviews</a>
+          <a class="nav-item nav-link" href="/#/landing" id="user-logout">Logout</a>
         </div>
       </div>
     </nav>
@@ -26,7 +27,19 @@ let Navbar = {
     return view
   },
   postRender: async () => {
-
+    const logout = document.getElementById('user-logout');
+    logout.addEventListener('click', async () => {
+      const userData = GetUser();
+      localStorage.clear();
+      $.ajax({
+        data: {
+          user_id: userData.userId,
+          token: userData.token,
+        },
+        url: `${ServerPreifx}/logout`,
+        type: 'GET',
+      });
+    });
   }
 }
 

@@ -19,10 +19,11 @@ class InterviewsController < ApplicationController
       members = User.where(:id => UserInterview.where(:interview_id => interview.id).pluck(:user_id)).pluck(:username ).join ","
       render json: {
         :id => interview.id,
+        :title => interview.title,
         :agenda => interview.agenda,
         :members => members,
-        :start => interview.start.to_formatted_s(:short),
-        :end => interview.end.to_formatted_s(:short),
+        :start => interview.start,
+        :end => interview.end,
         :comments => interview.comments,
         :created_by => interview.user.username,
       }
@@ -35,8 +36,26 @@ class InterviewsController < ApplicationController
   def user_interviews
     if can_view
       @interviews = Interview.where(:id => UserInterview.where(:user_id => current_user).pluck(:interview_id))
+      interviews = []
+      @interviews.each do |interview|
+        interviews.append({
+          :id => interview.id,
+          :title => interview.title,
+          :agenda => interview.agenda,
+          :start => interview.start.to_formatted_s(:short),
+          :end => interview.end.to_formatted_s(:short),
+          :comments => interview.comments,
+          :created_by => interview.user.username,
+        })
+      end
+      render json: {
+        :success => true,
+        :interviews => interviews,
+      }
     else
-      redirect_to signup_url
+      render json: {
+        :success => false
+      }
     end
   end
 
@@ -52,11 +71,21 @@ class InterviewsController < ApplicationController
             InterviewMailer.with(:interview=>@interview, :user_id=>member).updation_mails.deliver_later(wait_until: now)
             InterviewMailer.with(:interview=>@interview, :user_id=>member).reminder_mails.deliver_later(wait_until: send_time)
           end
-          redirect_to interviews_url, notice: "Successfully updated!"
+          render json: {
+            :success => true,
+          }
         end
+      else
+        render json: {
+          :success => false,
+          :error => "Some users have conflicting schedules",
+        }
       end
     else
-      redirect_to interviews_url, notice: "Not sufficient permission to update!"
+      render json: {
+        :success => false,
+        :error => "Not sufficient permission to update!",
+      }
     end
   end
 
@@ -64,17 +93,30 @@ class InterviewsController < ApplicationController
     if can_edit
       @interview = Interview.find(params[:id])
       @members = User.where(:id => UserInterview.where(:interview_id => @interview.id).pluck(:user_id)).pluck(:username ).join ","
+      render json: {
+        :success => true,
+        :interview => @interview,
+        :members => @members,
+      }
     else
-      redirect_to interviews_url, notice: "Not sufficient permission to update!"
+      render json: {
+        :success => false,
+        :error => "Not sufficient permission to update!",
+      }
     end
   end
 
   def delete
     if can_delete
       Interview.delete(params[:id])
-      redirect_to interviews_url, notice: "Successfully deleted!"
+      render json: {
+        :success => true,
+      }
     else
-      redirect_to interviews_url, notice: "Not sufficient permission to delete!"
+      render json: {
+        :success => false,
+        :error => "Not sufficient permission to delete!",
+      }
     end
   end
 
@@ -123,8 +165,10 @@ private
     conflicts = false
     start_time = @interview.start + 1.second
     end_time = @interview.end - 1.second
+    curr_id = @interview.id ? @interview.id : -1
     interviews = UserInterview.where(user_id: members)
     interviews.each do |interview|
+      next if interview.interview_id == curr_id
       upper_threshold = Time.now + 1000.years
       lower_threshold = Time.now - 1000.years
       query = Interview.where(:id => interview.interview_id, :start => end_time..upper_threshold).or(Interview.where(:id => interview.interview_id, :end => lower_threshold..start_time))

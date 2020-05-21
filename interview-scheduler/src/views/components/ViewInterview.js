@@ -1,9 +1,11 @@
 import GetUser from "../../services/GetUser.js";
+import Redirect from "../../services/Redirect.js";
+import IssueNotice from "../../services/IssueNotice.js";
+import { YELLOW_NOTICE, RED_NOTICE } from "../../services/Config.js";
 
 let ViewInterview = {
   name: "ViewInterview",
   render: async () => {
-    const userData = GetUser();
     let view = /*html*/`
       <div class="modal fade" id="interviewModal" tabindex="-1" role="dialog" aria-labelledby="interviewModalLabel" aria-modal="true">
         <div class="modal-dialog" role="document">
@@ -18,6 +20,12 @@ let ViewInterview = {
               <div class="table-responsive">
                 <table class="table table-hover">
                   <tbody>
+
+                    <tr>
+                      <th scope="col">Title</th>
+                      <td id="_title"></td>
+                    </tr>
+
                     <tr>
                       <th scope="col">Agenda</th>
                       <td id="_agenda"></td>
@@ -54,7 +62,7 @@ let ViewInterview = {
             </div>
             <div class="modal-footer">
               <a id="_update_int_id" class="btn btn-outline-info" href="#">Edit</a>
-              <a id="_delete_int_id" class="btn btn-outline-danger" data-confirm="Are you sure?" rel="nofollow" data-method="delete" href="#">Delete</a>
+              <a id="_delete_int_id" class="btn btn-outline-danger" href="#">Delete</a>
               <button type="button" class="btn btn-outline-secondary" data-dismiss="modal">Close</button>
             </div>
           </div>
@@ -66,6 +74,36 @@ let ViewInterview = {
   postRender: async() => {
     const updateButton = document.getElementById('_update_int_id');
     const deleteButton = document.getElementById('_delete_int_id');
+
+    updateButton.addEventListener('click', () => {
+      $('.modal').modal('hide');
+    });
+
+    deleteButton.addEventListener('click', event => {
+      event.preventDefault();
+      const url = deleteButton.getAttribute('href');
+      const userData = GetUser();
+      const confirm = window.confirm("Are you sure? This change is irreversible!");
+      if (confirm) {
+        $.ajax({
+          url: url,
+          method: 'DELETE',
+          data: {
+            user_id: userData.userId,
+            token: userData.token,
+          },
+          success: async data => {
+            $('.modal').modal('hide');
+            if (data.success) {
+              await Redirect('/');
+              await IssueNotice('Successfully deleted interview!', YELLOW_NOTICE);
+            } else {
+              await IssueNotice("Something went wrong! Please try again later!", RED_NOTICE);
+            }
+          }
+        });
+      }
+    })
 
   }
 }

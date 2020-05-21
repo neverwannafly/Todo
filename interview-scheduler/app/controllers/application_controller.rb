@@ -23,7 +23,7 @@ private
   end
   
   def can_upload
-    if current_user && current_user.id == params[:owner_id]
+    if current_user && current_user.id == params[:owner_id].to_i
       return true
     else
       return false

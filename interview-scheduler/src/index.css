@@ -2,6 +2,16 @@
    display: none;
 }
  
+.image {
+  width: 100%;
+  height: 800px;
+}
+
+.wrapper {
+  margin: 25px auto;
+  width: 85%;
+}
+
 .calendar-wrapper {
   width: 80%;
   margin-left: auto;
@@ -418,11 +428,13 @@
 }
 
 .center {
+  margin-top: 100px;
   text-align: center;
-  width: 80%;
-  margin: 30px auto;
-  background-color: #fff;
-  padding: 40px;
-  border: 1px solid #eeefef;
-  border-radius: 3px;
+  margin: auto;
+}
+
+.frame {
+  margin-top: 50px;
+  width: 100%;
+  height: 550px;
 }

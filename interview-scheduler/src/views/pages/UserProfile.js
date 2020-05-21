@@ -1,13 +1,19 @@
 import Navbar from "../components/Navbar.js";
 import CreateInterview from "../components/CreateInterview.js";
-import { ServerPreifx } from "../../services/Config.js";
+import { ServerPreifx, RED_NOTICE, GREEN_NOTICE } from "../../services/Config.js";
 import GetUser from "../../services/GetUser.js";
+import Redirect from "../../services/Redirect.js";
+import ExtractId from "../../services/ExtractId.js";
+import IssueNotice from "../../services/IssueNotice.js";
 
 let UserProfile = {
   name: "UserProfile",
   render: async () => {
     let view = /*html*/`
     <div id="navbar-root"></div>
+    <div class="wrapper">
+      <div id="notice-root"></div>
+    </div>
     <div id="create-interview-root"></div>
     <div class="container">
       <div class="center">
@@ -19,7 +25,6 @@ let UserProfile = {
             <label for="user_resume"><h3>Resume</h3></label>
             <input class="form-control-file" type="file" name="interview[resume]" id="user_resume">
           </div>
-              
           <div class="actions form-group form-inline">
             <input type="submit" name="commit" value="Upload" class="btn btn-primary btn-block">
           </div>
@@ -30,13 +35,15 @@ let UserProfile = {
     return view;
   },
   postRender: async () => {
-    const url =  location.href;
-    const index = url.search('/user/') + 6;
-    const ownerId = url.substring(index);
+    const resume = document.getElementById('resume-root');
+    // owner ID is the last part of url
+    // offset = 1 means last part, 2 means 2nd last and so on.
+    const ownerId = ExtractId(1);
     const userData = GetUser();
+    const url = `${ServerPreifx}/user/${ownerId}`;
 
     $.ajax({
-      url: `${ServerPreifx}/user/${ownerId}`,
+      url: url,
       data: {
         user_id: userData.userId,
         token: userData.token,
@@ -45,10 +52,42 @@ let UserProfile = {
       type: 'GET',
       success: (data) => {
         if (data.success) {
-          const resume = document.getElementById('resume-root');
-          resume.innerHTML = /*html*/`<img src="${data.resume}">`;
+          resume.innerHTML = /*html*/`
+            <div class="center">
+              <iframe class="frame" src="${data.resume}" frameborder="0"></iframe>
+            </div>
+          `;
+        } else {
+          resume.innerHTML = /*html*/`Resume not found`;
         }
       }
+    });
+
+    const form =  document.getElementById('upload_resume');
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const file = document.getElementById('user_resume').files[0];
+      const userData = GetUser();
+      let formData = new FormData();
+      formData.append('resume',   file)
+      formData.append('owner_id', ownerId)
+      formData.append('user_id',  userData.userId)
+      formData.append('token',    userData.token)
+      $.ajax({
+        url: url,
+        data: formData,
+        type: 'PATCH',
+        processData: false,
+        contentType: false,
+        success: async (data) => {
+          if (data.success) {
+            await Redirect(location.hash.slice(1));
+            await IssueNotice("Resume successfully uploaded", GREEN_NOTICE);
+          } else {
+            await IssueNotice(data.error, RED_NOTICE);
+          }
+        },
+      });
     });
 
     const navbar = document.getElementById('navbar-root');

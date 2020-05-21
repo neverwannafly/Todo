@@ -8,8 +8,11 @@ import ViewInterview from "../components/ViewInterview.js";
 let Index = {
   name: "Index",
   render : async () => {
-    let view = `
+    let view = `      
       <div id="navbar-root"></div>
+      <div class="wrapper">
+        <div id="notice-root"></div>
+      </div>
       <div id="create-interview-root"></div>
       <div id="view-interview-root"></div>
       <div class="calendar-wrapper">
@@ -53,8 +56,8 @@ let Index = {
             $("#_end").text(data.end);
             $("#_comments").text(data.comments);
             $("#_created_by").text(data.created_by);
-            const updateUrl = `/#/edit/${data.id}`;
-            const deleteUrl = `${ServerPreifx}/interview/${interviewId}`;
+            const updateUrl = `/#/${data.id}/edit`;
+            const deleteUrl = `${ServerPreifx}/interviews/${interviewId}`;
             $("#_delete_int_id").attr('href', deleteUrl);
             $("#_update_int_id").attr('href', updateUrl);
             $("#interviewModal").modal('show');

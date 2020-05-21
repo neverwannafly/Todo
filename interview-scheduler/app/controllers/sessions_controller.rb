@@ -26,10 +26,10 @@ class SessionsController < ApplicationController
   end
 
   def destroy
-    respond_to do |format|
-      session[:user_id] = nil
-      format.html { redirect_to login_url, notice: "Successfully Logged out" }
-    end
+    current_user.token = generate_token
+    render json: {
+      :success => true
+    }
   end
 
 private

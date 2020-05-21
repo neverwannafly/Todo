@@ -4,11 +4,12 @@ let Error404 = {
   render : async () => {
     let view = /*html*/`
       <div id="navbar"></div>
+      <div class="wrapper">
+        <div id="notice-root"></div>
+      </div>
       <div class="container">
-        <div class="container">
-          <center>
+        <div class="container center">
           <h1 class="display-1">Error 404</h1>
-          </center>
         </div>
       </div>
     `;
